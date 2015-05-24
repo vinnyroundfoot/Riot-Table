@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Example tble</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="bower_components/underscore/underscore-min.js"></script>
+        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+   </head>
+    <body>
+        <div class="container">
+            <div class="col-md-12">
+                <h1 id="titre">Test Riot.js</h1>
+                <matable id="tab1" data-id="table1"><h2>Liste 1</h2></matable>
+                <matable id="tab2" data-id="table2" excludecol="picture" ligneactive="success"><h2>Liste 2</h2></matable>   
+            </div>
+        </div>
+       
+        <script src="bower_components/riot/riot.js"></script>
+        <script src="build/matable.js" ></script>
+        <script src="build/boite.js" ></script>
+        <!--<script src="bower_components/riot/compiler.js"></script>-->
+        <script>
+            
+             var liste = [
+                {nom: 'asterix', prenom:'marcel', categorie:'S1', rem:'aaaa 1', points:5, 'classe':'R'},
+                {nom: 'obelix', prenom:'jules',categorie:'V1', rem:'bbbb 2', points:"1.2", 'classe':'A'},
+                {nom: 'agecanonix', prenom:'david',categorie:'V2', rem:'ccccc 3', points:"1.16", 'classe':'J'},
+                {nom: 'panoramix', prenom:'marc',categorie:'V1', rem:'ddddd 4', points:4, 'classe':'R'},
+                {nom: 'idefix', prenom:'arthur',categorie:'V3', rem:'reeee 5', points:3.5, 'classe':'C'}
+            ];           
+            
+            var liste1;
+            riot.mount("matable#tab1", {couleur:'#D4D4D4', data:liste});
+            riot.mount("matable#tab2", {couleur:'#B9B9B9', callback:chargeListe});
+       
+            console.log($('#titre').html());
+            
+            function chargeListe(matable) {
+ 
+                $.ajax({
+                    url: "data/liste1.json",
+                    async: false ,
+                    dataType: 'json'
+                     
+                })
+                .done(function(data) {
+                    matable.data = data;
+                 });
+            }
+
+        </script>
+    </body>
+</html>
