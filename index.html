@@ -18,11 +18,9 @@
         </div>
        
         <script src="bower_components/riot/riot.js"></script>
-        <script src="build/matable.js" ></script>
-        <script src="build/boite.js" ></script>
-        <!--<script src="bower_components/riot/compiler.js"></script>-->
+        <script src="src/matable.tag" type="riot/tag" ></script>
+        <script src="bower_components/riot/compiler.js"></script>
         <script>
-            
              var liste = [
                 {nom: 'asterix', prenom:'marcel', categorie:'S1', rem:'aaaa 1', points:5, 'classe':'R'},
                 {nom: 'obelix', prenom:'jules',categorie:'V1', rem:'bbbb 2', points:"1.2", 'classe':'A'},
@@ -32,24 +30,19 @@
             ];           
             
             var liste1;
-            riot.mount("matable#tab1", {couleur:'#D4D4D4', data:liste});
-            riot.mount("matable#tab2", {couleur:'#B9B9B9', callback:chargeListe});
+            riot.mount("matable#tab1", {couleur:'#D4D4D4', donnees:liste, styles: {header:"header", ligneactive:"info"}} );
+            riot.mount("matable#tab2", {couleur:'#B9B9B9', callback:chargeListe, styles: {header:"header", ligneactive:"info"}});
        
-            console.log($('#titre').html());
-            
             function chargeListe(matable) {
- 
                 $.ajax({
                     url: "data/liste1.json",
                     async: false ,
                     dataType: 'json'
-                     
                 })
                 .done(function(data) {
-                    matable.data = data;
+                    matable.donnees = data;
                  });
             }
-
         </script>
     </body>
 </html>

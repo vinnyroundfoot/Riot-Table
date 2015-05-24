@@ -13,7 +13,7 @@
                 <th onclick="{trier}" data-column="{this.colonnes[7].nomcol}" >{this.colonnes[7].nomcol} <span class="glyphicon glyphicon-arrow-{this.colonnes[7].tri}"></th>
                 <th onclick="{trier}" data-column="{this.colonnes[8].nomcol}" >{this.colonnes[8].nomcol} <span class="glyphicon glyphicon-arrow-{this.colonnes[8].tri}"></th>
             </tr>
-            <tr each={ elem, i in this.data } class="{elem.ligneactive}" onmouseenter="{parent.activeligne }"  >
+            <tr each={ elem, i in this.donnees } class="{elem.ligneactive}" onmouseenter="{parent.activeligne }"  >
                 <td>{elem[this.parent.colonnes[0].nomcol]}</td>
                 <td>{elem[this.parent.colonnes[1].nomcol]}</td>
                 <td>{elem[this.parent.colonnes[2].nomcol]}</td>
@@ -25,7 +25,6 @@
                 <td>{elem[this.parent.colonnes[8].nomcol]}</td>
            </tr> 
         </table>
-  
    </div>
        
     <style>
@@ -34,7 +33,7 @@
     </style>
     
     <script>
-    this.data        = [];
+    this.donnees     = [];
     this.tri         = 'up';
     this.ligneactive = 'warning';
     this.colonnes    = [];
@@ -49,7 +48,7 @@
        if (opts.callback) { 
             opts.callback(this);
        }else{
-           this.data = opts.data; 
+           this.donnees = opts.donnees; 
        }
        
        this.ligneactive = opts['ligneactive'] || this.ligneactive;
@@ -58,7 +57,7 @@
             this.col = opts['excludecol'].split();
        }
        
-       var keys = Object.keys(this.data[0]);
+       var keys = Object.keys(this.donnees[0]);
        
        for (var i=0, l=keys.length; i<l; i++) {
            this.colonnes.push({nomcol:keys[i], tri:''});
@@ -84,7 +83,6 @@
               });  
             }
         });
-
     };
     
     this.cacheRem = function(e) {
@@ -94,30 +92,27 @@
     };
      
     this.activeligne = function(e) {
-        for (var i=0, l= this.parent.data.length;i<l;i++) {
-            this.parent.data[i].select=false;
-            this.parent.data[i].ligneactive='';
+        for (var i=0, l= this.parent.donnees.length;i<l;i++) {
+            this.parent.donnees[i].select=false;
+            this.parent.donnees[i].ligneactive='';
         }
-
         e.item.elem.select=true;
         e.item.elem.ligneactive = this.parent.ligneactive;
-
     };
     
     
     this.trier = function(e) {
         var colonne = e.target.getAttribute('data-column');
-        
         if (colonne !== this.colonne) {
             this.tri = 'up';
             this.colonne = colonne;
         }
         
-        this.data = _.sortBy(this.data, colonne);
+        this.donnees = _.sortBy(this.donnees, colonne);
         
         if (this.tri==="down") {
             this.tri = 'up';
-            this.data.reverse();
+            this.donnees.reverse();
         }else{
             this.tri = "down";
         };
