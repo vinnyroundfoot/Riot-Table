@@ -1,0 +1,213 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/nodejs', '/usr/bin/npm', 'install', 'riot', '-g' ]
+2 info using npm@1.4.21
+3 info using node@v0.10.25
+4 verbose cache add [ 'riot', null ]
+5 verbose cache add name=undefined spec="riot" args=["riot",null]
+6 verbose parsed url { protocol: null,
+6 verbose parsed url   slashes: null,
+6 verbose parsed url   auth: null,
+6 verbose parsed url   host: null,
+6 verbose parsed url   port: null,
+6 verbose parsed url   hostname: null,
+6 verbose parsed url   hash: null,
+6 verbose parsed url   search: null,
+6 verbose parsed url   query: null,
+6 verbose parsed url   pathname: 'riot',
+6 verbose parsed url   path: 'riot',
+6 verbose parsed url   href: 'riot' }
+7 silly lockFile 5f6e05d5-riot riot
+8 verbose lock riot /home/vpi/.npm/5f6e05d5-riot.lock
+9 silly lockFile 5f6e05d5-riot riot
+10 silly lockFile 5f6e05d5-riot riot
+11 verbose addNamed [ 'riot', '' ]
+12 verbose addNamed [ null, '*' ]
+13 silly lockFile ce423be9-riot riot@
+14 verbose lock riot@ /home/vpi/.npm/ce423be9-riot.lock
+15 silly addNameRange { name: 'riot', range: '*', hasData: false }
+16 verbose request where is /riot
+17 verbose request registry https://registry.npmjs.org/
+18 verbose request id 666f9a33772d1195
+19 verbose url raw /riot
+20 verbose url resolving [ 'https://registry.npmjs.org/', './riot' ]
+21 verbose url resolved https://registry.npmjs.org/riot
+22 verbose request where is https://registry.npmjs.org/riot
+23 info trying registry request attempt 1 at 15:28:29
+24 verbose etag "863RQVU2W94CO4MIHP9LY6K35"
+25 http GET https://registry.npmjs.org/riot
+26 http 200 https://registry.npmjs.org/riot
+27 silly registry.get cb [ 200,
+27 silly registry.get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+27 silly registry.get     etag: '"DZ35EPUDM50K6J1PN13LLQC9U"',
+27 silly registry.get     'content-type': 'application/json',
+27 silly registry.get     'cache-control': 'max-age=60',
+27 silly registry.get     'content-length': '39780',
+27 silly registry.get     'accept-ranges': 'bytes',
+27 silly registry.get     date: 'Sun, 24 May 2015 13:28:26 GMT',
+27 silly registry.get     via: '1.1 varnish',
+27 silly registry.get     age: '0',
+27 silly registry.get     connection: 'keep-alive',
+27 silly registry.get     'x-served-by': 'cache-ams4143-AMS',
+27 silly registry.get     'x-cache': 'MISS',
+27 silly registry.get     'x-cache-hits': '0',
+27 silly registry.get     'x-timer': 'S1432474106.670674,VS0,VE327',
+27 silly registry.get     vary: 'Accept' } ]
+28 silly addNameRange number 2 { name: 'riot', range: '*', hasData: true }
+29 silly addNameRange versions [ 'riot',
+29 silly addNameRange   [ '0.0.0',
+29 silly addNameRange     '2.0.0-beta1',
+29 silly addNameRange     '2.0.0-beta2',
+29 silly addNameRange     '2.0.0',
+29 silly addNameRange     '2.0.1',
+29 silly addNameRange     '2.0.2',
+29 silly addNameRange     '2.0.3',
+29 silly addNameRange     '2.0.4',
+29 silly addNameRange     '2.0.5',
+29 silly addNameRange     '2.0.6',
+29 silly addNameRange     '2.0.7',
+29 silly addNameRange     '2.0.8',
+29 silly addNameRange     '2.0.9',
+29 silly addNameRange     '2.0.10',
+29 silly addNameRange     '2.0.11',
+29 silly addNameRange     '2.0.12',
+29 silly addNameRange     '2.0.13',
+29 silly addNameRange     '2.0.14',
+29 silly addNameRange     '2.0.15',
+29 silly addNameRange     '2.1.0' ] ]
+30 verbose addNamed [ 'riot', '2.1.0' ]
+31 verbose addNamed [ '2.1.0', '2.1.0' ]
+32 silly lockFile 2598e040-riot-2-1-0 riot@2.1.0
+33 verbose lock riot@2.1.0 /home/vpi/.npm/2598e040-riot-2-1-0.lock
+34 silly lockFile 7c682b6e-ry-npmjs-org-riot-riot-2-1-0-tgz https://registry.npmjs.org/riot/-/riot-2.1.0.tgz
+35 verbose lock https://registry.npmjs.org/riot/-/riot-2.1.0.tgz /home/vpi/.npm/7c682b6e-ry-npmjs-org-riot-riot-2-1-0-tgz.lock
+36 verbose addRemoteTarball [ 'https://registry.npmjs.org/riot/-/riot-2.1.0.tgz',
+36 verbose addRemoteTarball   '36c39ba68820e67b97846298b23236906e0ff393' ]
+37 info retry fetch attempt 1 at 15:28:30
+38 verbose fetch to= /tmp/npm-3375-qHNiK8AS/registry.npmjs.org/riot/-/riot-2.1.0.tgz
+39 http GET https://registry.npmjs.org/riot/-/riot-2.1.0.tgz
+40 http 200 https://registry.npmjs.org/riot/-/riot-2.1.0.tgz
+41 silly lockFile 7c682b6e-ry-npmjs-org-riot-riot-2-1-0-tgz https://registry.npmjs.org/riot/-/riot-2.1.0.tgz
+42 silly lockFile 7c682b6e-ry-npmjs-org-riot-riot-2-1-0-tgz https://registry.npmjs.org/riot/-/riot-2.1.0.tgz
+43 silly lockFile 2598e040-riot-2-1-0 riot@2.1.0
+44 silly lockFile 2598e040-riot-2-1-0 riot@2.1.0
+45 silly lockFile ce423be9-riot riot@
+46 silly lockFile ce423be9-riot riot@
+47 silly resolved [ { name: 'riot',
+47 silly resolved     version: '2.1.0',
+47 silly resolved     description: 'A React- like, 3.5K user interface library',
+47 silly resolved     homepage: 'https://muut.com/riotjs/',
+47 silly resolved     repository: { type: 'git', url: 'https://github.com/muut/riotjs' },
+47 silly resolved     author: { name: 'Muut, Inc. and other contributors' },
+47 silly resolved     license: 'MIT',
+47 silly resolved     scripts: { test: 'make riot' },
+47 silly resolved     keywords:
+47 silly resolved      [ 'custom tags',
+47 silly resolved        'custom elements',
+47 silly resolved        'web components',
+47 silly resolved        'virtual dom',
+47 silly resolved        'shadow dom',
+47 silly resolved        'polymer',
+47 silly resolved        'react',
+47 silly resolved        'jsx',
+47 silly resolved        'minimal',
+47 silly resolved        'minimalist',
+47 silly resolved        'client-side',
+47 silly resolved        'framework',
+47 silly resolved        'declarative',
+47 silly resolved        'templating',
+47 silly resolved        'template',
+47 silly resolved        'data binding',
+47 silly resolved        'mvc',
+47 silly resolved        'router',
+47 silly resolved        'model',
+47 silly resolved        'view',
+47 silly resolved        'controller',
+47 silly resolved        'riotjs',
+47 silly resolved        'riot.js' ],
+47 silly resolved     dependencies:
+47 silly resolved      { chalk: '^1.0.0',
+47 silly resolved        chokidar: '~1.0.1',
+47 silly resolved        minimist: '~1.1.1',
+47 silly resolved        shelljs: '~0.4.0',
+47 silly resolved        'simple-dom': '^0.2.2',
+47 silly resolved        'simple-html-tokenizer': '^0.1.1' },
+47 silly resolved     devDependencies:
+47 silly resolved      { cheerio: '^0.19.0',
+47 silly resolved        coveralls: '^2.11.2',
+47 silly resolved        eslint: '^0.20.0',
+47 silly resolved        'expect.js': '^0.3.1',
+47 silly resolved        glob: '^5.0.5',
+47 silly resolved        jsdom: '^5.3.0',
+47 silly resolved        karma: '^0.12.31',
+47 silly resolved        'karma-coverage': '^0.3.1',
+47 silly resolved        'karma-mocha': '^0.1.10',
+47 silly resolved        'karma-phantomjs-launcher': '^0.1.4',
+47 silly resolved        'karma-sauce-launcher': '^0.2.10',
+47 silly resolved        mocha: '^2.2.4',
+47 silly resolved        smash: '0.0.14',
+47 silly resolved        'uglify-js': 'latest' },
+47 silly resolved     preferGlobal: true,
+47 silly resolved     files:
+47 silly resolved      [ 'lib',
+47 silly resolved        'riot.js',
+47 silly resolved        'riot.min.js',
+47 silly resolved        'compiler.js',
+47 silly resolved        'compiler.min.js',
+47 silly resolved        'riot+compiler.js',
+47 silly resolved        'riot+compiler.min.js' ],
+47 silly resolved     bin: { riot: 'lib/server/cli.js' },
+47 silly resolved     main: 'lib/server/index.js',
+47 silly resolved     browser: 'riot.js',
+47 silly resolved     spm: { main: 'riot.js', ignore: [Object] },
+47 silly resolved     gitHead: '39ba93cef5f3c51a80473750904bd56617e58e38',
+47 silly resolved     bugs: { url: 'https://github.com/muut/riotjs/issues' },
+47 silly resolved     _id: 'riot@2.1.0',
+47 silly resolved     _shasum: '36c39ba68820e67b97846298b23236906e0ff393',
+47 silly resolved     _from: 'riot@',
+47 silly resolved     _npmVersion: '2.2.0',
+47 silly resolved     _nodeVersion: '0.10.33',
+47 silly resolved     _npmUser: { name: 'tipiirai', email: 'tero@muut.com' },
+47 silly resolved     maintainers: [ [Object], [Object] ],
+47 silly resolved     dist:
+47 silly resolved      { shasum: '36c39ba68820e67b97846298b23236906e0ff393',
+47 silly resolved        tarball: 'http://registry.npmjs.org/riot/-/riot-2.1.0.tgz' },
+47 silly resolved     directories: {},
+47 silly resolved     _resolved: 'https://registry.npmjs.org/riot/-/riot-2.1.0.tgz' } ]
+48 info install riot@2.1.0 into /usr/local/lib
+49 info installOne riot@2.1.0
+50 verbose lib/node_modules/riot unbuild
+51 verbose tar unpack /home/vpi/.npm/riot/2.1.0/package.tgz
+52 silly lockFile 3b97779c--usr-local-lib-node-modules-riot tar:///usr/local/lib/node_modules/riot
+53 verbose lock tar:///usr/local/lib/node_modules/riot /home/vpi/.npm/3b97779c--usr-local-lib-node-modules-riot.lock
+54 silly lockFile 9244cab8-e-vpi-npm-riot-2-1-0-package-tgz tar:///home/vpi/.npm/riot/2.1.0/package.tgz
+55 verbose lock tar:///home/vpi/.npm/riot/2.1.0/package.tgz /home/vpi/.npm/9244cab8-e-vpi-npm-riot-2-1-0-package-tgz.lock
+56 silly gunzTarPerm modes [ '775', '664' ]
+57 error Error: EACCES, mkdir '/usr/local/lib/node_modules/riot'
+57 error  { [Error: EACCES, mkdir '/usr/local/lib/node_modules/riot']
+57 error   errno: 3,
+57 error   code: 'EACCES',
+57 error   path: '/usr/local/lib/node_modules/riot',
+57 error   fstream_type: 'Directory',
+57 error   fstream_path: '/usr/local/lib/node_modules/riot',
+57 error   fstream_class: 'DirWriter',
+57 error   fstream_stack:
+57 error    [ '/usr/lib/nodejs/fstream/lib/dir-writer.js:36:23',
+57 error      '/usr/lib/nodejs/mkdirp/index.js:46:53',
+57 error      'Object.oncomplete (fs.js:107:15)' ] }
+58 error Please try running this command again as root/Administrator.
+59 error System Linux 3.19.0-15-generic
+60 error command "/usr/bin/nodejs" "/usr/bin/npm" "install" "riot" "-g"
+61 error cwd /home/vpi/NetBeansProjects/Riot-Table
+62 error node -v v0.10.25
+63 error npm -v 1.4.21
+64 error path /usr/local/lib/node_modules/riot
+65 error fstream_path /usr/local/lib/node_modules/riot
+66 error fstream_type Directory
+67 error fstream_class DirWriter
+68 error code EACCES
+69 error errno 3
+70 error stack Error: EACCES, mkdir '/usr/local/lib/node_modules/riot'
+71 error fstream_stack /usr/lib/nodejs/fstream/lib/dir-writer.js:36:23
+71 error fstream_stack /usr/lib/nodejs/mkdirp/index.js:46:53
+71 error fstream_stack Object.oncomplete (fs.js:107:15)
+72 verbose exit [ 3, true ]

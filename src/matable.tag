@@ -1,43 +1,34 @@
 <matable>
+    <div>
+        <button id="refresh" onclick="{this.lireFichier}">Refresh</button>
+        <button id="Start" onclick="{this.startLecture}">Démarrer</button>
+        <button id="Stop" onclick="{this.stopLecture}">Stopper</button>
+    </div>
     <div class="matable">
         <yield/>
-        <table class="table table-striped" id="{opts['data-id']}">
-            <tr>
-                <th onclick="{trier}" data-column="{this.colonnes[0].nomcol}" >{this.colonnes[0].nomcol} <span class="glyphicon glyphicon-arrow-{this.colonnes[0].tri}"></th>
-                <th onclick="{trier}" data-column="{this.colonnes[1].nomcol}" >{this.colonnes[1].nomcol} <span class="glyphicon glyphicon-arrow-{this.colonnes[1].tri}"></th>
-                <th onclick="{trier}" data-column="{this.colonnes[2].nomcol}" >{this.colonnes[2].nomcol} <span class="glyphicon glyphicon-arrow-{this.colonnes[2].tri}"></th>
-                <th onclick="{trier}" data-column="{this.colonnes[3].nomcol}" >{this.colonnes[3].nomcol} <span class="glyphicon glyphicon-arrow-{this.colonnes[3].tri}"></th>
-                <th onclick="{trier}" data-column="{this.colonnes[4].nomcol}" >{this.colonnes[4].nomcol} <span class="glyphicon glyphicon-arrow-{this.colonnes[4].tri}"></th>
-                <th onclick="{trier}" data-column="{this.colonnes[5].nomcol}" >{this.colonnes[5].nomcol} <span class="glyphicon glyphicon-arrow-{this.colonnes[5].tri}"></th>
-                <th onclick="{trier}" data-column="{this.colonnes[6].nomcol}" >{this.colonnes[6].nomcol} <span class="glyphicon glyphicon-arrow-{this.colonnes[6].tri}"></th>
-                <th onclick="{trier}" data-column="{this.colonnes[7].nomcol}" >{this.colonnes[7].nomcol} <span class="glyphicon glyphicon-arrow-{this.colonnes[7].tri}"></th>
-                <th onclick="{trier}" data-column="{this.colonnes[8].nomcol}" >{this.colonnes[8].nomcol} <span class="glyphicon glyphicon-arrow-{this.colonnes[8].tri}"></th>
-            </tr>
-            <tr each={ elem, i in this.donnees } class="{elem.ligneactive}" onmouseenter="{parent.activeligne }"  >
-                <td>{elem[this.parent.colonnes[0].nomcol]}</td>
-                <td>{elem[this.parent.colonnes[1].nomcol]}</td>
-                <td>{elem[this.parent.colonnes[2].nomcol]}</td>
-                <td>{elem[this.parent.colonnes[3].nomcol]}</td>
-                <td>{elem[this.parent.colonnes[4].nomcol]}</td>
-                <td>{elem[this.parent.colonnes[5].nomcol]}</td>
-                <td>{elem[this.parent.colonnes[6].nomcol]}</td>
-                <td>{elem[this.parent.colonnes[7].nomcol]}</td>
-                <td>{elem[this.parent.colonnes[8].nomcol]}</td>
-           </tr> 
+        <table class="table table-striped" id="{opts['data-id']}"> 
+            <tr> 
+                <th each={c in this.colonnes} data-column="{c.nomcol}" onclick="{this.parent.click_trier}">{c.nomcol} <span class="glyphicon glyphicon-arrow-{c.tri}"  </th>           
+             </tr> 
+            <tr each={ elem, i in this.donnees } class="{this.parent.ligneactive(i)}" onmouseover="{parent.activeligne }"  >
+                <td each={ d in elem } >{elem[d]}</td>
+            </tr>  
         </table>
    </div>
        
     <style>
         matable table th {cursor:pointer}
-        matable span.glyphicon { padding-left:10px}
+        matable span.glyphicon { padding-left:10px} 
     </style>
     
     <script>
     this.donnees     = [];
     this.tri         = 'up';
-    this.ligneactive = 'warning';
+    this.ligneactiveclass = 'danger';
     this.colonnes    = [];
     this.col         = [];
+    this.selectionne = -1;
+    
     
     this.on('mount', function() {
        var elem = this.root.getElementsByTagName('th');
@@ -45,28 +36,58 @@
          elem[i].style.backgroundColor=opts.couleur;
        };
        
-       if (opts.callback) { 
-            opts.callback(this);
-       }else{
-           this.donnees = opts.donnees; 
-       }
-       
        this.ligneactive = opts['ligneactive'] || this.ligneactive;
        
        if (opts['excludecol']) {
-            this.col = opts['excludecol'].split();
+            this.col = opts['excludecol'].split(',');
        }
+        
+    });
+
+    this.startLecture = function () {
+        this.intervalID = setInterval(this.lireFichier.bind(this), 5000);
+    }               
+
+    this.stopLecture = function () {
+        clearInterval(this.intervalID);
+    } 
+
+    this.lireFichier = function () {
+        console.log('lecture'); 
+             if (opts.callback) { 
+            opts.callback(this);
+       }else{
+           this.donnees = opts.donnees; 
+       } 
        
        var keys = Object.keys(this.donnees[0]);
        
+       this.colonnes = [];
        for (var i=0, l=keys.length; i<l; i++) {
            this.colonnes.push({nomcol:keys[i], tri:''});
-       }
+       }       
        
-       this.update();         
-       this.tableau();
+       var colexclude = this.col;
+       
+       _.each(this.donnees, function(elem) {
+         for (i=0, l=colexclude.length; i<l; i++) {
+            delete elem[colexclude[i]] ;
+         }
+       });
+       
+        this.colonnes = _.filter(this.colonnes, function(elem){
+            return !_.contains(colexclude,elem.nomcol);
+        });       
 
-    });
+
+        if (this.opts.triDefaut) {
+            this.trier(this.opts.triDefaut); 
+        }
+               
+        
+        this.update();
+    }
+   
    
     this.tableau = function() {
         var indice = -1;
@@ -77,10 +98,10 @@
             var c = $(this).attr('data-column');  
             if (c === ''  || _.contains(col,c)){
               indice = $(this).index();
-
-              $lignes.each(function() {
-                 $(this).children("td:eq(" + indice + "), th:eq(" + indice+")").remove();
-              });  
+              $(this).remove();
+              //$lignes.each(function() {
+              //   $(this).children("td:eq(" + indice + "), th:eq(" + indice+")").remove();
+              //});  
             }
         });
     };
@@ -92,17 +113,26 @@
     };
      
     this.activeligne = function(e) {
-        for (var i=0, l= this.parent.donnees.length;i<l;i++) {
-            this.parent.donnees[i].select=false;
-            this.parent.donnees[i].ligneactive='';
+        this.parent.selectionne = e.item.i;
+    }
+    
+    this.ligneactive = function(i) {
+        if (i == this.selectionne)
+        {
+            return this.ligneactiveclass;
+        }else{
+            return '';
         }
-        e.item.elem.select=true;
-        e.item.elem.ligneactive = this.parent.ligneactive;
-    };
+    }
     
-    
-    this.trier = function(e) {
+    this.click_trier = function(e) {
         var colonne = e.target.getAttribute('data-column');
+        this.parent.trier(colonne); 
+    }
+    
+    
+    this.trier = function(colonne) {
+        //var colonne = e.target.getAttribute('data-column');
         if (colonne !== this.colonne) {
             this.tri = 'up';
             this.colonne = colonne;
@@ -124,7 +154,6 @@
                 this.colonnes[i].tri = '';
             }
         }
-        this.update();
     };
     
     </script>

@@ -12,14 +12,13 @@
         <div class="container">
             <div class="col-md-12">
                 <h1 id="titre">Test Riot.js</h1>
-                <matable id="tab1" data-id="table1"><h2>Liste 1</h2></matable>
-                <matable id="tab2" data-id="table2" excludecol="picture" ligneactive="success"><h2>Liste 2</h2></matable>   
+                <matable id="tab2" data-id="table1" excludecol="picture,address,phone"><h2>Liste 1</h2></matable>
+               
             </div>
         </div>
        
         <script src="bower_components/riot/riot.js"></script>
-        <script src="src/matable.tag" type="riot/tag" ></script>
-        <script src="bower_components/riot/compiler.js"></script>
+        <script src="build/matable.js"  ></script>
         <script>
              var liste = [
                 {nom: 'asterix', prenom:'marcel', categorie:'S1', rem:'aaaa 1', points:5, 'classe':'R'},
@@ -30,18 +29,53 @@
             ];           
             
             var liste1;
-            riot.mount("matable#tab1", {couleur:'#D4D4D4', donnees:liste, styles: {header:"header", ligneactive:"info"}} );
-            riot.mount("matable#tab2", {couleur:'#B9B9B9', callback:chargeListe, styles: {header:"header", ligneactive:"info"}});
+            //var maListe = riot.mount("matable#tab1", {couleur:'#D4D4D4', triDefaut:'age', donnees:liste, styles: {header:"header", ligneactive:"info"}} );
+            //riot.mount("matable#tab2", {couleur:'#B9B9B9', callback:chargeListe, styles: {header:"header", ligneactive:"info"}});
+            var maListe;
+            monter();
+            
+
+            
+            function startLecture() {
+                 intervalID = setInterval(monter, 5000);
+            }               
+
+            function stopLecture() {
+                clearInterval(intervalID);
+            }    
+       
+            function monter() {
+              maListe = riot.mount("matable#tab2", {triDefaut:'age', couleur:'#B9B9B9', callback:chargeListe, styles: {header:"header", ligneactive:"info"}});
+              //maListe[0].opts.triDefaut = 'name';
+              //maListe[0].lireFichier();             
+            }
+            
+       
        
             function chargeListe(matable) {
-                $.ajax({
-                    url: "data/liste1.json",
-                    async: false ,
-                    dataType: 'json'
-                })
-                .done(function(data) {
-                    matable.donnees = data;
-                 });
+                
+                function startLecture() {
+                    intervalID = setInterval(lire, 1000);
+                }               
+
+                function stopLecture() {
+                    clearInterval(intervalID);
+                }
+                
+                
+                function lire() {
+                    $.ajax({
+                        url: "data/liste1.json",
+                        async: false ,
+                        dataType: 'json'
+                    })
+                    .done(function(data) {
+                        matable.donnees = data;
+                     });
+                }
+                
+                //startLecture();
+                lire();
             }
         </script>
     </body>
