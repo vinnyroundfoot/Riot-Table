@@ -1,33 +1,30 @@
-riot.tag('matable', '<div> <button id="refresh" onclick="{this.lireFichier}">Refresh</button> <button id="Start" onclick="{this.startLecture}">D�marrer</button> <button id="Stop" onclick="{this.stopLecture}">Stopper</button> </div> <div class="matable"> <yield></yield> <table class="table table-striped" id="{opts[\'data-id\']}"> <tr> <th each="{c in this.colonnes}" data-column="{c.nomcol}" onclick="{this.parent.click_trier}">{c.nomcol} <span class="glyphicon glyphicon-arrow-{c.tri}" </th> </tr> <tr each="{ elem, i in this.donnees }" class="{this.parent.ligneactive(i)}" onmouseover="{parent.activeligne }" > <td each="{ d in elem }" >{elem[d]}</td> </tr> </table> </div>', 'matable table th {cursor:pointer} matable span.glyphicon { padding-left:10px}', function(opts) {
+riot.tag('matable', '<div class="matable"> <yield></yield> <table class="table table-striped" id="{opts[\'data-id\']}"> <tr class="{this.headerClass}"> <th each="{c in this.colonnes}" data-column="{c.nomcol}" onclick="{this.parent.click_trier}">{c.nomcol} <span class="glyphicon glyphicon-arrow-{c.tri}" </th> </tr> <tr each="{ elem, i in this.donnees }" class="{this.parent.ligneactive(i)}" onmouseover="{parent.activeligne }" > <td each="{ d in elem }" >{elem[d]}</td> </tr> </table> </div>', 'matable table th {cursor:pointer} matable span.glyphicon { padding-left:10px}', function(opts) {
     this.donnees     = [];
     this.tri         = 'up';
-    this.ligneactiveclass = 'danger';
     this.colonnes    = [];
     this.col         = [];
     this.selectionne = -1;
+    this.headerClass = "";
+    this.ligneactiveClass = '';
+    this.filtreCol = 'gender';
+    this.filtreVal = 'female';
     
     
     this.on('mount', function() {
-       var elem = this.root.getElementsByTagName('th');
-       for (var i=0,l=elem.length;i<l;i++) {
-         elem[i].style.backgroundColor=opts.couleur;
-       };
        
-       this.ligneactive = opts['ligneactive'] || this.ligneactive;
+  
+       this.headerClass = this.opts.styles.header || this.headerClass;
+       this.ligneactiveClass = this.opts.styles.ligneactive || this.ligneaCtiveclass;
        
        if (opts['excludecol']) {
             this.col = opts['excludecol'].split(',');
        }
+       
+       if (this.ligneactiveClass ==='') {
+           this.ligneactive = function() { return };
+       }
         
     });
-
-    this.startLecture = function () {
-        this.intervalID = setInterval(this.lireFichier.bind(this), 5000);
-    }               
-
-    this.stopLecture = function () {
-        clearInterval(this.intervalID);
-    } 
 
     this.lireFichier = function () {
         console.log('lecture'); 
@@ -44,8 +41,18 @@ riot.tag('matable', '<div> <button id="refresh" onclick="{this.lireFichier}">Ref
            this.colonnes.push({nomcol:keys[i], tri:''});
        }       
        
-       var colexclude = this.col;
        
+       
+       var filtreCol = this.filtreCol;
+       var filtreVal = this.filtreVal;
+       
+       this.donnees = _.filter(this.donnees, function(elem) {
+          return (elem[filtreCol] === filtreVal) ;
+       });
+       
+       
+       
+       var colexclude = this.col;
        _.each(this.donnees, function(elem) {
          for (i=0, l=colexclude.length; i<l; i++) {
             delete elem[colexclude[i]] ;
@@ -96,7 +103,7 @@ riot.tag('matable', '<div> <button id="refresh" onclick="{this.lireFichier}">Ref
     this.ligneactive = function(i) {
         if (i == this.selectionne)
         {
-            return this.ligneactiveclass;
+            return this.ligneactiveClass;
         }else{
             return '';
         }

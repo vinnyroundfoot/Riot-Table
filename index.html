@@ -12,6 +12,11 @@
         <div class="container">
             <div class="col-md-12">
                 <h1 id="titre">Test Riot.js</h1>
+                <div>
+                    <button id="refresh" onclick="lireFichier()">Refresh</button>
+                    <button id="Start" onclick="startLecture()">Démarrer</button>
+                    <button id="Stop" onclick="stopLecture()">Stopper</button>
+                </div>
                 <matable id="tab2" data-id="table1" excludecol="picture,address,phone"><h2>Liste 1</h2></matable>
                
             </div>
@@ -45,38 +50,40 @@
             }    
        
             function monter() {
-              maListe = riot.mount("matable#tab2", {triDefaut:'age', couleur:'#B9B9B9', callback:chargeListe, styles: {header:"header", ligneactive:"info"}});
+              maListe = riot.mount("matable#tab2", {triDefaut:'age', couleur:'#B9B9B9', callback:chargeListe, styles: {header:"warning", ligneactive:"info"}});
               //maListe[0].opts.triDefaut = 'name';
               //maListe[0].lireFichier();             
             }
             
+            function lireFichier() {
+              maListe[0].opts.triDefaut = 'name';
+              maListe[0].filtreCol = 'age';
+              maListe[0].filtreVal = 36;
+              maListe[0].lireFichier();                  
+            }
        
        
             function chargeListe(matable) {
+                $.ajax({
+                    url: "data/liste1.json",
+                    async: false ,
+                    dataType: 'json'
+                })
+                .done(function(data) {
+                    matable.donnees = data;
+                 });
                 
-                function startLecture() {
-                    intervalID = setInterval(lire, 1000);
-                }               
-
-                function stopLecture() {
-                    clearInterval(intervalID);
-                }
-                
-                
-                function lire() {
-                    $.ajax({
-                        url: "data/liste1.json",
-                        async: false ,
-                        dataType: 'json'
-                    })
-                    .done(function(data) {
-                        matable.donnees = data;
-                     });
-                }
-                
-                //startLecture();
-                lire();
             }
+            
+            var startLecture = function () {
+                this.intervalID = setInterval(lireFichier, 5000);
+            }               
+
+            var stopLecture = function () {
+                clearInterval(this.intervalID);
+            }             
+            
+            
         </script>
     </body>
 </html>
