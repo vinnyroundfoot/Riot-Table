@@ -1,5 +1,6 @@
 riot.tag('matable', '<div class="matable"> <yield></yield> <table class="table table-striped" id="{opts[\'data-id\']}"> <tr class="{this.headerClass}"> <th each="{c in this.colonnes}" data-column="{c.nomcol}" onclick="{this.parent.click_trier}">{c.nomcol} <span class="glyphicon glyphicon-arrow-{c.tri}" </th> </tr> <tr each="{ elem, i in this.donnees }" class="{this.parent.ligneactive(i)}" onmouseover="{parent.activeligne }" > <td each="{ d in elem }" >{elem[d]}</td> </tr> </table> </div>', 'matable table th {cursor:pointer} matable span.glyphicon { padding-left:10px}', function(opts) {
     this.donnees     = [];
+    this.donnees_bak = [];
     this.tri         = 'up';
     this.colonnes    = [];
     this.col         = [];
@@ -32,25 +33,15 @@ riot.tag('matable', '<div class="matable"> <yield></yield> <table class="table t
             opts.callback(this);
        }else{
            this.donnees = opts.donnees; 
-       } 
-       
+        } 
+       this.donnees_bak = this.donnees;
        var keys = Object.keys(this.donnees[0]);
        
        this.colonnes = [];
        for (var i=0, l=keys.length; i<l; i++) {
            this.colonnes.push({nomcol:keys[i], tri:''});
        }       
-       
-       
-       
-       var filtreCol = this.filtreCol;
-       var filtreVal = this.filtreVal;
-       
-       this.donnees = _.filter(this.donnees, function(elem) {
-          return (elem[filtreCol] === filtreVal) ;
-       });
-       
-       
+
        
        var colexclude = this.col;
        _.each(this.donnees, function(elem) {
@@ -67,10 +58,38 @@ riot.tag('matable', '<div class="matable"> <yield></yield> <table class="table t
         if (this.opts.triDefaut) {
             this.trier(this.opts.triDefaut); 
         }
-               
-        
         this.update();
     }
+   
+   
+    this.filtrer = function() {
+       var filtreCol = this.filtreCol;
+       var filtreVal = this.filtreVal;        
+        
+        
+       if (filtreCol === '') {
+            this.donnees = this.donnees_bak;
+       }else{
+           var pos = filtreVal.indexOf("*");
+           if (pos > -1 && pos === filtreVal.length-1)
+           {    
+               this.donnees = _.filter(this.donnees_bak, function(elem) {
+                  var filval = filtreVal.replace('*',''); 
+                  return (elem[filtreCol].startsWith(filval)) ;
+               });
+           }else{
+               this.donnees = _.filter(this.donnees_bak, function(elem) {
+                  var r =  (elem[filtreCol] == filtreVal) ;
+                  console.log (elem[filtreCol] + ' - ' + filtreVal + ' - ' + filtreCol + ' - ' + r);
+                  return r;
+               });          
+           }
+       } 
+       
+       
+       
+       this.update();
+    };
    
    
     this.tableau = function() {

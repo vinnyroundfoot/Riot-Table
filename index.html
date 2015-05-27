@@ -12,14 +12,33 @@
         <div class="container">
             <div class="col-md-12">
                 <h1 id="titre">Test Riot.js</h1>
-                <div>
+                <div class="col-md-3">
                     <button id="refresh" onclick="lireFichier()">Refresh</button>
                     <button id="Start" onclick="startLecture()">Démarrer</button>
                     <button id="Stop" onclick="stopLecture()">Stopper</button>
                 </div>
-                <matable id="tab2" data-id="table1" excludecol="picture,address,phone"><h2>Liste 1</h2></matable>
-               
+                
+                <div class="col-md-9">
+                    <div class="col-md-4">
+                        <button id="filtrer" onclick="filtrer()" >Filtrer</button>
+                        <button id="annulerfiltrer" onclick="annulerfiltrer()" >Annuler filtre</button>
+                    </div>
+                    
+                    <div class="col-md-5">
+                        <p>Colonne : <input id="filtreColonne" type="text"/></p>
+                        <p>Valeur : <input id="filtreValeur"  type="text"/></p>
+                    </div>
+                    
+                </div>
+                
+                <div class="col-md-12">
+                <matable id="tab2" data-id="table1" excludecol="picture,address"><h2>Liste 1</h2></matable>
+                </div>
+            
             </div>
+            
+            
+            
         </div>
        
         <script src="bower_components/riot/riot.js"></script>
@@ -33,14 +52,11 @@
                 {nom: 'idefix', prenom:'arthur',categorie:'V3', rem:'reeee 5', points:3.5, 'classe':'C'}
             ];           
             
-            var liste1;
             //var maListe = riot.mount("matable#tab1", {couleur:'#D4D4D4', triDefaut:'age', donnees:liste, styles: {header:"header", ligneactive:"info"}} );
             //riot.mount("matable#tab2", {couleur:'#B9B9B9', callback:chargeListe, styles: {header:"header", ligneactive:"info"}});
             var maListe;
             monter();
-            
-
-            
+             
             function startLecture() {
                  intervalID = setInterval(monter, 5000);
             }               
@@ -51,16 +67,26 @@
        
             function monter() {
               maListe = riot.mount("matable#tab2", {triDefaut:'age', couleur:'#B9B9B9', callback:chargeListe, styles: {header:"warning", ligneactive:"info"}});
-              //maListe[0].opts.triDefaut = 'name';
-              //maListe[0].lireFichier();             
             }
             
             function lireFichier() {
               maListe[0].opts.triDefaut = 'name';
-              maListe[0].filtreCol = 'age';
-              maListe[0].filtreVal = 36;
+
               maListe[0].lireFichier();                  
             }
+            
+            function filtrer() {
+                maListe[0].filtreCol = $('#filtreColonne').val();
+                maListe[0].filtreVal = $('#filtreValeur').val();
+                maListe[0].filtrer();
+                
+            }
+       
+            function annulerfiltrer() {
+                maListe[0].filtreCol = '';
+                maListe[0].filtrer();
+                
+            }       
        
        
             function chargeListe(matable) {
@@ -77,11 +103,11 @@
             
             var startLecture = function () {
                 this.intervalID = setInterval(lireFichier, 5000);
-            }               
+            };             
 
             var stopLecture = function () {
                 clearInterval(this.intervalID);
-            }             
+            };            
             
             
         </script>

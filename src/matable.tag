@@ -19,6 +19,7 @@
     
     <script>
     this.donnees     = [];
+    this.donnees_bak = [];
     this.tri         = 'up';
     this.colonnes    = [];
     this.col         = [];
@@ -54,25 +55,16 @@
             opts.callback(this);
        }else{
            this.donnees = opts.donnees; 
-       } 
-       
+        } 
+       this.donnees_bak = this.donnees;
        var keys = Object.keys(this.donnees[0]);
        
        this.colonnes = [];
        for (var i=0, l=keys.length; i<l; i++) {
            this.colonnes.push({nomcol:keys[i], tri:''});
        }       
-       
-       
-       
-       var filtreCol = this.filtreCol;
-       var filtreVal = this.filtreVal;
-       
-       this.donnees = _.filter(this.donnees, function(elem) {
-          return (elem[filtreCol] === filtreVal) ;
-       });
-       
-       
+
+       //this.filtrer();
        
        var colexclude = this.col;
        _.each(this.donnees, function(elem) {
@@ -89,10 +81,38 @@
         if (this.opts.triDefaut) {
             this.trier(this.opts.triDefaut); 
         }
-               
-        
         this.update();
     }
+   
+   
+    this.filtrer = function() {
+       var filtreCol = this.filtreCol;
+       var filtreVal = this.filtreVal;        
+        
+        
+       if (filtreCol === '') {
+            this.donnees = this.donnees_bak;
+       }else{
+           var pos = filtreVal.indexOf("*");
+           if (pos > -1 && pos === filtreVal.length-1)
+           {    
+               this.donnees = _.filter(this.donnees_bak, function(elem) {
+                  var filval = filtreVal.replace('*',''); 
+                  return (elem[filtreCol].startsWith(filval)) ;
+               });
+           }else{
+               this.donnees = _.filter(this.donnees_bak, function(elem) {
+                  var r =  (elem[filtreCol] == filtreVal) ;
+                  console.log (elem[filtreCol] + ' - ' + filtreVal + ' - ' + filtreCol + ' - ' + r);
+                  return r;
+               });          
+           }
+       } 
+       
+       
+       
+       this.update();
+    };
    
    
     this.tableau = function() {
