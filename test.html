@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Example table</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="bower_components/underscore/underscore-min.js"></script>
+        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+   </head>
+    <body>
+        <div class="container">
+
+                
+                <div class="col-md-12">
+                <matable id="tab1" data-id="table1"><h2>Liste 1</h2></matable>
+                <matable id="tab2" data-id="table2"><h2>Liste 2</h2></matable>
+                </div>
+
+        </div>
+       
+        <script src="bower_components/riot/riot.js"></script>
+        <script src="build/matable.js"  ></script>
+        <script>
+             var liste1 = [
+                {nom: 'asterix', prenom:'marcel', categorie:'S1', rem:'aaaa 1', points:5, 'classe':'R'},
+                {nom: 'obelix', prenom:'jules',categorie:'V1', rem:'bbbb 2', points:"1.2", 'classe':'A'},
+                {nom: 'agecanonix', prenom:'david',categorie:'V2', rem:'ccccc 3', points:"1.16", 'classe':'J'},
+                {nom: 'panoramix', prenom:'marc',categorie:'V1', rem:'ddddd 4', points:4, 'classe':'R'},
+                {nom: 'idefix', prenom:'arthur',categorie:'V3', rem:'reeee 5', points:3.5, 'classe':'C'}
+            ];           
+
+            var liste2= 
+                    [
+                        {
+                          "id": 1,
+                          "age": 44,
+                          "carte": "verte",
+                          "name": "Letha Keller",
+                          "gender": "female",
+                          "email": "lethakeller@renovize.com",
+                          "solde": "3,283.94"
+                        },
+                        {
+                          "id": 11,
+                          "age": 51,
+                          "carte": "verte",
+                          "name": "Hall Newton",
+                                            "gender": "male",
+                                            "email": "hallnewton@renovize.com",
+                                            "solde": "3,552.61"
+                                        },
+                                        {
+                                            "id": 21,
+                                            "age": 44,
+                                            "carte": "verte",
+                                            "name": "Carroll Rollins",
+                                            "gender": "male",
+                                            "email": "carrollrollins@renovize.com",
+                                            "solde": "2,029.79"
+                                        },
+                                        {
+                                            "id": 31,
+                                            "age": 46,
+                                            "carte": "bleue",
+                                            "name": "Everett Parsons",
+                                            "gender": "male",
+                                            "email": "everettparsons@renovize.com",
+                                            "solde": "1,438.85"
+                                        },
+                                        {
+                                            "id": 41,
+                                            "age": 45,
+                                            "carte": "bleue",
+                                            "name": "Megan Weeks",
+                                            "gender": "female",
+                                            "email": "meganweeks@renovize.com",
+                                            "solde": "1,129.30"
+                                        },
+                                        {
+                                            "id": 51,
+                                            "age": 30,
+                                            "carte": "verte",
+                                            "name": "Sharlene Cote",
+                                            "gender": "female",
+                                            "email": "sharlenecote@renovize.com",
+                                            "solde": -742.34
+                                        },
+                                        {
+                                            "id": 61,
+                                            "age": 25,
+                                            "carte": "bleue",
+                                            "name": "Kelley Hines",
+                                            "gender": "female",
+                                            "email": "kelleyhines@renovize.com",
+                                            "solde": "1,973.51"
+                                        },
+                                        {
+                                            "id": 71,
+                                            "age": 40,
+                                            "carte": "verte",
+                                            "name": "Lavonne Mclean",
+                                            "gender": "female",
+                                            "email": "lavonnemclean@renovize.com",
+                                            "solde": "1,272.78"
+                                        },
+                                        {
+                                            "id": 81,
+                                            "age": 40,
+                                            "carte": "bleue",
+                                            "name": "Sandy Gallegos",
+                                            "gender": "female",
+                                            "email": "sandygallegos@renovize.com",
+                                            "solde": "2,032.02"
+                                        },
+                                        {
+                                            "id": 91,
+                                            "age": 37,
+                                            "carte": "verte",
+                                            "name": "Nadine Roy",
+                                            "gender": "female",
+                                            "email": "nadineroy@renovize.com",
+                                            "solde": "2,945.25"
+                                        },
+                                        {
+                                            "id": 101,
+                                            "age": 44,
+                                            "carte": "verte",
+                                            "name": "Francis Kerr",
+                                            "gender": "male",
+                                            "email": "franciskerr@renovize.com",
+                                            "solde": "3,854.95"
+                                        },
+                                        {
+                                            "id": 111,
+                                            "age": 20,
+                                            "carte": "bleue",
+                                            "name": "Herman Mccoy",
+                                            "gender": "male",
+                                            "email": "hermanmccoy@renovize.com",
+                                            "solde": -79.34
+                                        },
+                                        {
+                                            "id": 121,
+                                            "age": 24,
+                                            "carte": "rouge",
+                                            "name": "Tracy Joseph",
+                                            "gender": "female",
+                                            "email": "tracyjoseph@renovize.com",
+                                            "solde": "1,135.89"
+                                        }
+                                    ];
+
+            var matable1 = riot.mount("matable#tab1", {colexcluded : "rem, classe,points", data:liste1, triDefaut:'prenom', couleur:'#B9B9B9', styles: {colHeaderClass:"warning", activeLineClass:"danger"}});
+            matable1[0].start();
+            
+            var matable2 = riot.mount("matable#tab2", {colFilter:'carte', valueFilter:'verte', colExcluded : "email", triDefaut:'age', couleur:'#B9B9B9', styles: {colHeaderClass:"warning", activeLineClass:"danger"}});
+            matable2[0].start(liste2);
+            
+            
+        </script>
+    </body>
+</html>

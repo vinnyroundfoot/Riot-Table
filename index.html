@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Example tble</title>
+        <title>Example table</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="bower_components/jquery/dist/jquery.min.js"></script>
@@ -13,7 +13,7 @@
             <div class="col-md-12">
                 <h1 id="titre">Test Riot.js</h1>
                 <div class="col-md-3">
-                    <button id="refresh" onclick="lireFichier()">Refresh</button>
+                    <button id="refresh" onclick="chargeListe()">Refresh</button>
                     <button id="Start" onclick="startLecture()">Démarrer</button>
                     <button id="Stop" onclick="stopLecture()">Stopper</button>
                 </div>
@@ -32,13 +32,9 @@
                 </div>
                 
                 <div class="col-md-12">
-                <matable id="tab2" data-id="table1" excludecol="picture,address"><h2>Liste 1</h2></matable>
+                <matable id="tab2" data-id="table1" colExcluded="picture,address"><h2>Liste 1</h2></matable>
                 </div>
-            
             </div>
-            
-            
-            
         </div>
        
         <script src="bower_components/riot/riot.js"></script>
@@ -51,11 +47,8 @@
                 {nom: 'panoramix', prenom:'marc',categorie:'V1', rem:'ddddd 4', points:4, 'classe':'R'},
                 {nom: 'idefix', prenom:'arthur',categorie:'V3', rem:'reeee 5', points:3.5, 'classe':'C'}
             ];           
-            
-            //var maListe = riot.mount("matable#tab1", {couleur:'#D4D4D4', triDefaut:'age', donnees:liste, styles: {header:"header", ligneactive:"info"}} );
-            //riot.mount("matable#tab2", {couleur:'#B9B9B9', callback:chargeListe, styles: {header:"header", ligneactive:"info"}});
-            var maListe;
-            monter();
+
+            var maListe = monter();
              
             function startLecture() {
                  intervalID = setInterval(monter, 5000);
@@ -66,49 +59,38 @@
             }    
        
             function monter() {
-              maListe = riot.mount("matable#tab2", {triDefaut:'age', couleur:'#B9B9B9', callback:chargeListe, styles: {header:"warning", ligneactive:"info"}});
-            }
-            
-            function lireFichier() {
-              maListe[0].opts.triDefaut = 'name';
-
-              maListe[0].lireFichier();                  
+              return riot.mount("matable#tab2", {triDefaut:'age', couleur:'#B9B9B9', styles: {colHeaderClass:"warning", activeLineClass:"danger"}});
             }
             
             function filtrer() {
                 maListe[0].filtreCol = $('#filtreColonne').val();
                 maListe[0].filtreVal = $('#filtreValeur').val();
                 maListe[0].filtrer();
-                
             }
        
             function annulerfiltrer() {
                 maListe[0].filtreCol = '';
                 maListe[0].filtrer();
-                
             }       
        
-       
-            function chargeListe(matable) {
+            function chargeListe() {
                 $.ajax({
                     url: "data/liste1.json",
-                    async: false ,
+                    async: true ,
                     dataType: 'json'
                 })
                 .done(function(data) {
-                    matable.donnees = data;
+                    maListe[0].start(data);
                  });
-                
             }
             
             var startLecture = function () {
-                this.intervalID = setInterval(lireFichier, 5000);
+                this.intervalID = setInterval(chargeListe, 5000);
             };             
 
             var stopLecture = function () {
                 clearInterval(this.intervalID);
             };            
-            
             
         </script>
     </body>

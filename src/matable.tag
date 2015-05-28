@@ -3,10 +3,10 @@
     <div class="matable">
         <yield/>
         <table class="table table-striped" id="{opts['data-id']}"> 
-            <tr class="{this.headerClass}"> 
-                <th each={c in this.colonnes} data-column="{c.nomcol}" onclick="{this.parent.click_trier}">{c.nomcol} <span class="glyphicon glyphicon-arrow-{c.tri}"  </th>           
+            <tr class="{this.colHeaderClass}"> 
+                <th each={c in this.colHeader} data-column="{c.nomcol}" onclick="{this.parent.click_trier}">{c.nomcol} <span class="glyphicon glyphicon-arrow-{c.tri}"></span>  </th>           
              </tr> 
-            <tr each={ elem, i in this.donnees } class="{this.parent.ligneactive(i)}" onmouseover="{parent.activeligne }"  >
+            <tr each={ elem, i in this.data } class="{this.parent.activeLine(i)}" onmouseover="{parent.lineOver }"  >
                 <td each={ d in elem } >{elem[d]}</td>
             </tr>  
         </table>
@@ -18,111 +18,117 @@
     </style>
     
     <script>
-    this.donnees     = [];
-    this.donnees_bak = [];
-    this.tri         = 'up';
-    this.colonnes    = [];
-    this.col         = [];
-    this.selectionne = -1;
-    this.headerClass = "";
-    this.ligneactiveClass = '';
-    this.filtreCol = 'gender';
-    this.filtreVal = 'female';
-    
+    this.data         = [];
+    this.data_bak     = [];
+    this.tri          = 'up';
+    this.colHeader    = [];
+    this.colExcluded  = [];
+    this.selectionne  = -1;
+    this.colHeaderClass  = "";
+    this.activeLineClass = '';
+    this.filtreCol    = '';
+    this.filtreVal    = '';
     
     this.on('mount', function() {
-       /*var elem = this.root.getElementsByTagName('th');
-       for (var i=0,l=elem.length;i<l;i++) {
-         elem[i].style.backgroundColor=opts.couleur;
-       };*/
-  
-       this.headerClass = this.opts.styles.header || this.headerClass;
-       this.ligneactiveClass = this.opts.styles.ligneactive || this.ligneaCtiveclass;
-       
-       if (opts['excludecol']) {
-            this.col = opts['excludecol'].split(',');
-       }
-       
-       if (this.ligneactiveClass ==='') {
-           this.ligneactive = function() { return };
-       }
-        
+      this.init(); 
     });
-
-    this.lireFichier = function () {
-        console.log('lecture'); 
-             if (opts.callback) { 
-            opts.callback(this);
-       }else{
-           this.donnees = opts.donnees; 
-        } 
-       this.donnees_bak = this.donnees;
-       var keys = Object.keys(this.donnees[0]);
+    
+    this.init = function() {
+       this.colHeaderClass = this.opts.styles.colHeaderClass || this.colHeaderClass;
+       this.activeLineClass = this.opts.styles.activeLineClass || this.activeLineClass;
        
-       this.colonnes = [];
+       if (this.opts['colexcluded']) {
+            this.colExcluded = this.opts['colexcluded'].replace(/ /g,'').split(',');
+       }
+       
+       if (this.activeLineClass ==='') {
+           this.activeLine = function() { return };
+       }  
+       
+       if (this.opts.colFilter) {
+           this.filtreCol = opts.colFilter;
+       };
+       
+       if (this.opts.valueFilter) {
+           this.filtreVal = opts.valueFilter;
+       };       
+       
+       
+    };
+    
+    
+    this.formatTable = function () {
+       var keys = Object.keys(this.data[0]);
+       
+       this.colHeader = [];
        for (var i=0, l=keys.length; i<l; i++) {
-           this.colonnes.push({nomcol:keys[i], tri:''});
+           this.colHeader.push({nomcol:keys[i], tri:''});
        }       
-
-       //this.filtrer();
        
-       var colexclude = this.col;
-       _.each(this.donnees, function(elem) {
+       var colexclude = this.colExcluded;
+       _.each(this.data, function(elem) {
          for (i=0, l=colexclude.length; i<l; i++) {
             delete elem[colexclude[i]] ;
          }
        });
        
-        this.colonnes = _.filter(this.colonnes, function(elem){
+        this.colHeader = _.filter(this.colHeader, function(elem){
             return !_.contains(colexclude,elem.nomcol);
         });       
-
 
         if (this.opts.triDefaut) {
             this.trier(this.opts.triDefaut); 
         }
-        this.update();
-    }
-   
+        this.update();        
+    };
+    
+
+    this.start = function (data) {
+        if (!data) {
+           this.data = this.opts.data; 
+        }else{
+            this.data = data;
+        }
+       this.data_bak = this.data;
+       this.filtrer();
+       this.formatTable();
+    };
    
     this.filtrer = function() {
        var filtreCol = this.filtreCol;
        var filtreVal = this.filtreVal;        
         
-        
        if (filtreCol === '') {
-            this.donnees = this.donnees_bak;
+            this.data = this.data_bak;
        }else{
            var pos = filtreVal.indexOf("*");
            if (pos > -1 && pos === filtreVal.length-1)
            {    
-               this.donnees = _.filter(this.donnees_bak, function(elem) {
+               this.data = _.filter(this.data_bak, function(elem) {
                   var filval = filtreVal.replace('*',''); 
                   return (elem[filtreCol].startsWith(filval)) ;
                });
            }else{
-               this.donnees = _.filter(this.donnees_bak, function(elem) {
+               this.data = _.filter(this.data_bak, function(elem) {
                   var r =  (elem[filtreCol] == filtreVal) ;
                   console.log (elem[filtreCol] + ' - ' + filtreVal + ' - ' + filtreCol + ' - ' + r);
                   return r;
                });          
            }
        } 
-       
-       
-       
+
        this.update();
     };
    
    
     this.tableau = function() {
         var indice = -1;
-        var col =this.col;
+        var colExcluded =this.colExcluded;
         var $lignes = $('#'+opts['data-id']).children('tbody').children('tr');
 
         $lignes.children('th').each(function() {
             var c = $(this).attr('data-column');  
-            if (c === ''  || _.contains(col,c)){
+            if (c === ''  || _.contains(colExcluded,c)){
               indice = $(this).index();
               $(this).remove();
               //$lignes.each(function() {
@@ -138,46 +144,45 @@
         remarque.style.display='none';
     };
      
-    this.activeligne = function(e) {
+    this.lineOver = function(e) {
         this.parent.selectionne = e.item.i;
-    }
+    };
     
-    this.ligneactive = function(i) {
+    this.activeLine = function(i) {
         if (i == this.selectionne)
         {
-            return this.ligneactiveClass;
+            return this.activeLineClass;
         }else{
             return '';
         }
-    }
+    };
     
     this.click_trier = function(e) {
         var colonne = e.target.getAttribute('data-column');
         this.parent.trier(colonne); 
-    }
+    };
     
     
     this.trier = function(colonne) {
-        //var colonne = e.target.getAttribute('data-column');
         if (colonne !== this.colonne) {
             this.tri = 'up';
             this.colonne = colonne;
         }
         
-        this.donnees = _.sortBy(this.donnees, colonne);
+        this.data = _.sortBy(this.data, colonne);
         
         if (this.tri==="down") {
             this.tri = 'up';
-            this.donnees.reverse();
+            this.data.reverse();
         }else{
             this.tri = "down";
         };
 
-        for (var i=0, l = this.colonnes.length; i < l; i++) {
-            if (this.colonnes[i].nomcol === colonne) {
-                this.colonnes[i].tri = this.tri;  
+        for (var i=0, l = this.colHeader.length; i < l; i++) {
+            if (this.colHeader[i].nomcol === colonne) {
+                this.colHeader[i].tri = this.tri;  
             }else{
-                this.colonnes[i].tri = '';
+                this.colHeader[i].tri = '';
             }
         }
     };
