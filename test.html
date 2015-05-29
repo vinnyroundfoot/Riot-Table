@@ -13,8 +13,8 @@
 
                 
                 <div class="col-md-12">
-                <matable id="tab1" data-id="table1"><h2>Liste 1</h2></matable>
-                <matable id="tab2" data-id="table2"><h2>Liste 2</h2></matable>
+                <rtable id="tab1" data-id="table1"><h2>Liste 1</h2></rtable>
+                <rtable id="tab2" data-id="table2"><h2>Liste 2</h2></rtable>
                 </div>
 
         </div>
@@ -151,11 +151,11 @@
                                         }
                                     ];
 
-            var matable1 = riot.mount("matable#tab1", {colexcluded : "rem, classe,points", data:liste1, triDefaut:'prenom', couleur:'#B9B9B9', styles: {colHeaderClass:"warning", activeLineClass:"danger"}});
-            matable1[0].start();
+            var rtable1 = riot.mount("rtable#tab1", {colTitle:{'nom':'Nom', 'prenom':'Prénom', 'categorie':'Catégorie'}, colexcluded : "rem, classe,points", data:liste1, defaultSort:'prenom', styles: {colHeaderClass:"warning", activeLineClass:"danger"}});
+            rtable1[0].start();
             
-            var matable2 = riot.mount("matable#tab2", {colFilter:'carte', valueFilter:'verte', colExcluded : "email", triDefaut:'age', couleur:'#B9B9B9', styles: {colHeaderClass:"warning", activeLineClass:"danger"}});
-            matable2[0].start(liste2);
+            var rtable2 = riot.mount("rtable#tab2", {colFilter:'carte', valueFilter:'bleue', colExcluded : "email", defaultSort:'age', couleur:'#B9B9B9', styles: {colHeaderClass:"warning", activeLineClass:"danger"}});
+            rtable2[0].start(liste2);
             
             
         </script>
