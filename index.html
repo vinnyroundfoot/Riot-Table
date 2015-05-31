@@ -32,7 +32,12 @@
                 </div>
                 
                 <div class="col-md-12">
-                <matable id="tab2" data-id="table1" colExcluded="picture,address"><h2>Liste 1</h2></matable>
+                <rtable id="tab2" 
+                        data-id="table1" 
+                        colExcluded="id_course, distance" 
+                        sort="column:position,   order:up" 
+                        styles="tableClass:table table-hover table-condensed, colHeaderClass:warning, activeLineClass:active "
+                        ><h2>Liste 1</h2></rtable>
                 </div>
             </div>
         </div>
@@ -40,13 +45,6 @@
         <script src="bower_components/riot/riot.js"></script>
         <script src="build/matable.js"  ></script>
         <script>
-             var liste = [
-                {nom: 'asterix', prenom:'marcel', categorie:'S1', rem:'aaaa 1', points:5, 'classe':'R'},
-                {nom: 'obelix', prenom:'jules',categorie:'V1', rem:'bbbb 2', points:"1.2", 'classe':'A'},
-                {nom: 'agecanonix', prenom:'david',categorie:'V2', rem:'ccccc 3', points:"1.16", 'classe':'J'},
-                {nom: 'panoramix', prenom:'marc',categorie:'V1', rem:'ddddd 4', points:4, 'classe':'R'},
-                {nom: 'idefix', prenom:'arthur',categorie:'V3', rem:'reeee 5', points:3.5, 'classe':'C'}
-            ];           
 
             var maListe = monter();
              
@@ -59,29 +57,39 @@
             }    
        
             function monter() {
-              return riot.mount("matable#tab2", {defaultSort:'age', styles: {colHeaderClass:"warning", activeLineClass:"danger"}});
+              return riot.mount("rtable#tab2"); 
             }
             
             function filtrer() {
-                maListe[0].filtreCol = $('#filtreColonne').val();
-                maListe[0].filtreVal = $('#filtreValeur').val();
-                maListe[0].filtrer();
+                maListe[0].filter = {'column' : $('#filtreColonne').val(), 'value' : $('#filtreValeur').val()};
+                maListe[0].filterTable();
             }
        
             function annulerfiltrer() {
-                maListe[0].filtreCol = '';
-                maListe[0].filtrer();
+                maListe[0].filter = {'column' : '', 'value' : ''};
+                maListe[0].filterTable();    
             }       
        
             function chargeListe() {
                 $.ajax({
-                    url: "data/liste1.json",
+                    //url: "data/liste1.json",
+                    url:"http://chj/pages/resultats.php?type_cmd=courseParID&type_course=mini&id_course=20150508",
                     async: true ,
                     dataType: 'json'
                 })
                 .done(function(data) {
-                    maListe[0].start(data);
+                    //maListe[0].sort = {column:'age', order:'up'};
+                    for (i=0;i<data.length;i++) {
+                        data.position = Number(data.position);
+                    }
+                    maListe[0].start((data));
+                               
+                 })
+                 .fail(function(e) {
+                     maListe[0].start(Array(e.responseText));
+                     console.log(e);
                  });
+                
             }
             
             var startLecture = function () {
