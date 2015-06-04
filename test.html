@@ -7,14 +7,23 @@
         <script src="bower_components/jquery/dist/jquery.min.js"></script>
         <script src="bower_components/underscore/underscore-min.js"></script>
         <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+        
+        <style>
+            .header-name {background-color: #ebebeb !important}
+            .col-id, .col-solde {text-align: right}
+            .col-name {font-weight: bold; background-color: #eee}
+            
+        </style>
+            
+        
    </head>
     <body>
         <div class="container">
 
                 
                 <div class="col-md-12">
-                <rtable id="tab1" data-id="table1"><h2>Liste 1</h2></rtable>
-                <rtable id="tab2" data-id="table2"><h2>Liste 2</h2></rtable>
+                <rtable id="tab1" ><h2>Liste 1</h2></rtable>
+                <rtable id="tab2"><h2>Liste 2</h2></rtable>
                 </div>
 
         </div>
@@ -22,474 +31,145 @@
         <script src="bower_components/riot/riot.js"></script>
         <script src="build/matable.js"  ></script>
         <script>
-             var liste1 = [
+       
+
+            var liste1= 
 [
   {
-    "id": "20150523",
-    "nom": "Leuze - 2015",
-    "type_course": "mini"
+    "id": 1,
+    "age": 33,
+    "carte": "bleue",
+    "name": "Kristine Davenport",
+    "gender": "female",
+    "email": "kristinedavenport@digigen.com",
+    "solde": 2597.71
   },
   {
-    "id": "20150516",
-    "nom": "Wasmes-AB - 2015",
-    "type_course": "mini"
+    "id": 11,
+    "age": 25,
+    "carte": "rouge",
+    "name": "Greta Bell",
+    "gender": "female",
+    "email": "gretabell@digigen.com",
+    "solde": 3957.3
   },
   {
-    "id": "20150508",
-    "nom": "Peruwelz Braffe - 2015",
-    "type_course": "mini"
+    "id": 21,
+    "age": 22,
+    "carte": "verte",
+    "name": "Bridgett Petty",
+    "gender": "female",
+    "email": "bridgettpetty@digigen.com",
+    "solde": 268.4
   },
   {
-    "id": "20150501",
-    "nom": "Beclers - 2015",
-    "type_course": "mini"
+    "id": 31,
+    "age": 57,
+    "carte": "bleue",
+    "name": "Shelly Mcmahon",
+    "gender": "female",
+    "email": "shellymcmahon@digigen.com",
+    "solde": -902.93
   },
   {
-    "id": "20150425",
-    "nom": "Brasmenil - 2015",
-    "type_course": "mini"
+    "id": 41,
+    "age": 21,
+    "carte": "rouge",
+    "name": "Robertson Allen",
+    "gender": "male",
+    "email": "robertsonallen@digigen.com",
+    "solde": 2960.4
   },
   {
-    "id": "20150406",
-    "nom": "Beloeil - 2015",
-    "type_course": "mini"
+    "id": 51,
+    "age": 30,
+    "carte": "bleue",
+    "name": "Anna Bray",
+    "gender": "female",
+    "email": "annabray@digigen.com",
+    "solde": -934.82
   },
   {
-    "id": "20150322",
-    "nom": "Ellignies - 2015",
-    "type_course": "mini"
+    "id": 61,
+    "age": 60,
+    "carte": "rouge",
+    "name": "Delacruz Gilbert",
+    "gender": "male",
+    "email": "delacruzgilbert@digigen.com",
+    "solde": -435.77
   },
   {
-    "id": "20150315",
-    "nom": "Organisateurs - 2015",
-    "type_course": "mini"
+    "id": 71,
+    "age": 47,
+    "carte": "rouge",
+    "name": "Evans Stephens",
+    "gender": "male",
+    "email": "evansstephens@digigen.com",
+    "solde": 2542.63
   },
   {
-    "id": "20141005",
-    "nom": "CESP - 2014",
-    "type_course": "mini"
+    "id": 81,
+    "age": 46,
+    "carte": "bleue",
+    "name": "Carpenter Bailey",
+    "gender": "male",
+    "email": "carpenterbailey@digigen.com",
+    "solde": 620.02
   },
   {
-    "id": "20140927",
-    "nom": "Vezon - 2014",
-    "type_course": "mini"
+    "id": 91,
+    "age": 52,
+    "carte": "bleue",
+    "name": "Washington Shaffer",
+    "gender": "male",
+    "email": "washingtonshaffer@digigen.com",
+    "solde": 1334.4
   },
   {
-    "id": "20140921",
-    "nom": "Péruwelz - 2014",
-    "type_course": "mini"
+    "id": 101,
+    "age": 57,
+    "carte": "verte",
+    "name": "Taylor Conrad",
+    "gender": "female",
+    "email": "taylorconrad@digigen.com",
+    "solde": 2135.11
   },
   {
-    "id": "20140913",
-    "nom": "Willaupuis - 2014",
-    "type_course": "mini"
+    "id": 111,
+    "age": 24,
+    "carte": "rouge",
+    "name": "Nelson Roman",
+    "gender": "male",
+    "email": "nelsonroman@digigen.com",
+    "solde": 824.92
   },
   {
-    "id": "20140906",
-    "nom": "Bon-Secours - 2014",
-    "type_course": "mini"
-  },
-  {
-    "id": "20140831",
-    "nom": "Estaimbourg - 2014",
-    "type_course": "mini"
-  },
-  {
-    "id": "20140822",
-    "nom": "Bury - 2014",
-    "type_course": "mini"
-  },
-  {
-    "id": "20140817",
-    "nom": "Velaines - 2014",
-    "type_course": "mini"
-  },
-  {
-    "id": "20140801",
-    "nom": "Bléharies - 2014",
-    "type_course": "mini"
-  },
-  {
-    "id": "20140725",
-    "nom": "Wiers - 2014",
-    "type_course": "mini"
-  },
-  {
-    "id": "20140721",
-    "nom": "Blandain - 2014",
-    "type_course": "mini"
-  },
-  {
-    "id": "20140711",
-    "nom": "Chievres - 2014",
-    "type_course": "mini"
-  },
-  {
-    "id": "20140705",
-    "nom": "Maulde - 2014",
-    "type_course": "mini"
-  },
-  {
-    "id": "20140621",
-    "nom": "Renaix - 2014",
-    "type_course": "mini"
-  },
-  {
-    "id": "20140531",
-    "nom": "Taintignies - 2014",
-    "type_course": "mini"
-  },
-  {
-    "id": "20140524",
-    "nom": "WASMES-A-B - 2014",
-    "type_course": "mini"
-  },
-  {
-    "id": "20140517",
-    "nom": "Leuze-en-Hainaut - 2014",
-    "type_course": "mini"
-  },
-  {
-    "id": "20140509",
-    "nom": "Péruwelz - 2014",
-    "type_course": "mini"
-  },
-  {
-    "id": "20140501",
-    "nom": "Béclers - 2014",
-    "type_course": "mini"
-  },
-  {
-    "id": "20140421",
-    "nom": "Beloeil - 2014",
-    "type_course": "mini"
-  },
-  {
-    "id": "20140405",
-    "nom": "Brasmenil - 2014",
-    "type_course": "mini"
-  },
-  {
-    "id": "20140322",
-    "nom": "Marquain - 2014",
-    "type_course": "mini"
-  },
-  {
-    "id": "20140316",
-    "nom": "Course des Organisateurs - 2014",
-    "type_course": "mini"
-  },
-  {
-    "id": "20130914",
-    "nom": "Wuillaupuis - 2013",
-    "type_course": "mini"
-  },
-  {
-    "id": "20130907",
-    "nom": "Bon-Secours - 2013",
-    "type_course": "mini"
-  },
-  {
-    "id": "20130901",
-    "nom": "Estaimbourg - 2013",
-    "type_course": "mini"
-  },
-  {
-    "id": "20130824",
-    "nom": "Bury - 2013",
-    "type_course": "mini"
-  },
-  {
-    "id": "20130802",
-    "nom": "Bléharies - 2013",
-    "type_course": "mini"
-  },
-  {
-    "id": "20130726",
-    "nom": "Wiers - 2013",
-    "type_course": "mini"
-  },
-  {
-    "id": "20130721",
-    "nom": "Blandain - 2013",
-    "type_course": "mini"
-  },
-  {
-    "id": "20130705",
-    "nom": "Chievres - 2013",
-    "type_course": "mini"
-  },
-  {
-    "id": "20130622",
-    "nom": "Ronse - 2013",
-    "type_course": "mini"
-  },
-  {
-    "id": "20130531",
-    "nom": "Peruwelz - 2013",
-    "type_course": "mini"
-  },
-  {
-    "id": "20130525",
-    "nom": "Deux-Acren - 2013",
-    "type_course": "mini"
-  },
-  {
-    "id": "20130518",
-    "nom": "Wasmes-A-B - 2013",
-    "type_course": "mini"
-  },
-  {
-    "id": "20130501",
-    "nom": "Béclers - 2013",
-    "type_course": "mini"
-  },
-  {
-    "id": "20130427",
-    "nom": "Taintignies - 2013",
-    "type_course": "mini"
-  },
-  {
-    "id": "20130420",
-    "nom": "Brasmenil - 2013",
-    "type_course": "mini"
-  },
-  {
-    "id": "20130401",
-    "nom": "Beloeil - 2013",
-    "type_course": "mini"
-  },
-  {
-    "id": "20130323",
-    "nom": "Marquain - 2013",
-    "type_course": "mini"
-  },
-  {
-    "id": "20130317",
-    "nom": "Course des organisateurs - 2013",
-    "type_course": "mini"
-  },
-  {
-    "id": "20120915",
-    "nom": "Callenelle - 2012",
-    "type_course": "mini"
-  },
-  {
-    "id": "20120901",
-    "nom": "Bon-Secours - 2012",
-    "type_course": "mini"
-  },
-  {
-    "id": "20120824",
-    "nom": "Bury - 2012",
-    "type_course": "mini"
-  },
-  {
-    "id": "20120803",
-    "nom": "Bleharies - 2012",
-    "type_course": "mini"
-  },
-  {
-    "id": "20120727",
-    "nom": "Wiers - 2012",
-    "type_course": "mini"
-  },
-  {
-    "id": "20120721",
-    "nom": "Blandain - 2012",
-    "type_course": "mini"
-  },
-  {
-    "id": "20120706",
-    "nom": "Chievres - 2012",
-    "type_course": "mini"
-  },
-  {
-    "id": "20120629",
-    "nom": "Renaix - 2012",
-    "type_course": "mini"
-  },
-  {
-    "id": "20120609",
-    "nom": "Taintignies - 2012",
-    "type_course": "mini"
-  },
-  {
-    "id": "20120511",
-    "nom": "Arc-Wattripont - 2012",
-    "type_course": "mini"
-  },
-  {
-    "id": "20120504",
-    "nom": "Péruwelz - 2012",
-    "type_course": "mini"
-  },
-  {
-    "id": "20120501",
-    "nom": "Béclers - 2012",
-    "type_course": "mini"
-  },
-  {
-    "id": "20120409",
-    "nom": "Beloeil - 2012",
-    "type_course": "mini"
-  },
-  {
-    "id": "20120324",
-    "nom": "Marquain - 2012",
-    "type_course": "mini"
-  },
-  {
-    "id": "20120318",
-    "nom": "Course des organisateurs - 2012",
-    "type_course": "mini"
+    "id": 121,
+    "age": 50,
+    "carte": "rouge",
+    "name": "Rosemarie Mcclure",
+    "gender": "female",
+    "email": "rosemariemcclure@digigen.com",
+    "solde": 2075.19
   }
-]
-            ];           
-
-            var liste2= 
-                    [
-                        {
-                          "id": 1,
-                          "age": 44,
-                          "carte": "verte",
-                          "name": "Letha Keller",
-                          "gender": "female",
-                          "email": "lethakeller@renovize.com",
-                          "solde": "3,283.94"
-                        },
-                        {
-                          "id": 11,
-                          "age": 51,
-                          "carte": "verte",
-                          "name": "Hall Newton",
-                                            "gender": "male",
-                                            "email": "hallnewton@renovize.com",
-                                            "solde": "3,552.61"
-                                        },
-                                        {
-                                            "id": 21,
-                                            "age": 44,
-                                            "carte": "verte",
-                                            "name": "Carroll Rollins",
-                                            "gender": "male",
-                                            "email": "carrollrollins@renovize.com",
-                                            "solde": "2,029.79"
-                                        },
-                                        {
-                                            "id": 31,
-                                            "age": 46,
-                                            "carte": "bleue",
-                                            "name": "Everett Parsons",
-                                            "gender": "male",
-                                            "email": "everettparsons@renovize.com",
-                                            "solde": "1,438.85"
-                                        },
-                                        {
-                                            "id": 41,
-                                            "age": 45,
-                                            "carte": "bleue",
-                                            "name": "Megan Weeks",
-                                            "gender": "female",
-                                            "email": "meganweeks@renovize.com",
-                                            "solde": "1,129.30"
-                                        },
-                                        {
-                                            "id": 51,
-                                            "age": 30,
-                                            "carte": "verte",
-                                            "name": "Sharlene Cote",
-                                            "gender": "female",
-                                            "email": "sharlenecote@renovize.com",
-                                            "solde": -742.34
-                                        },
-                                        {
-                                            "id": 61,
-                                            "age": 25,
-                                            "carte": "bleue",
-                                            "name": "Kelley Hines",
-                                            "gender": "female",
-                                            "email": "kelleyhines@renovize.com",
-                                            "solde": "1,973.51"
-                                        },
-                                        {
-                                            "id": 71,
-                                            "age": 40,
-                                            "carte": "verte",
-                                            "name": "Lavonne Mclean",
-                                            "gender": "female",
-                                            "email": "lavonnemclean@renovize.com",
-                                            "solde": "1,272.78"
-                                        },
-                                        {
-                                            "id": 81,
-                                            "age": 40,
-                                            "carte": "bleue",
-                                            "name": "Sandy Gallegos",
-                                            "gender": "female",
-                                            "email": "sandygallegos@renovize.com",
-                                            "solde": "2,032.02"
-                                        },
-                                        {
-                                            "id": 91,
-                                            "age": 37,
-                                            "carte": "verte",
-                                            "name": "Nadine Roy",
-                                            "gender": "female",
-                                            "email": "nadineroy@renovize.com",
-                                            "solde": "2,945.25"
-                                        },
-                                        {
-                                            "id": 101,
-                                            "age": 44,
-                                            "carte": "verte",
-                                            "name": "Francis Kerr",
-                                            "gender": "male",
-                                            "email": "franciskerr@renovize.com",
-                                            "solde": "3,854.95"
-                                        },
-                                        {
-                                            "id": 111,
-                                            "age": 20,
-                                            "carte": "bleue",
-                                            "name": "Herman Mccoy",
-                                            "gender": "male",
-                                            "email": "hermanmccoy@renovize.com",
-                                            "solde": -79.34
-                                        },
-                                        {
-                                            "id": 121,
-                                            "age": 24,
-                                            "carte": "rouge",
-                                            "name": "Tracy Joseph",
-                                            "gender": "female",
-                                            "email": "tracyjoseph@renovize.com",
-                                            "solde": "1,135.89"
-                                        }
-                                    ];
+];
 
             var rtable1 = riot.mount("rtable#tab1", {
-                                        colTitle: {'nom':'Nom', 'prenom':'Prénom', 'categorie':'Catégorie'}, 
-                                        colexcluded : "rem, classe,points", 
-                                        sort: {column:'nom',order:'up'},
+                                        colTitle: {'name':'Nom'}, 
+                                        colexcluded : "email, gender", 
+                                        sort: {column:'id',order:'Up'},
                                         data:liste1, 
-                                        defaultSort:'prenom', 
                                         styles: { 
                                             tableClass:"table table-bordered", 
                                             colHeaderClass:"info", 
-                                            activeLineClass:"active"}
+                                            activeLineClass:"active",
+                                            sortUpClass:"glyphicon glyphicon-arrow-up",
+                                            sortDownClass:"glyphicon glyphicon-arrow-down"
+                                        }
                                     });
             rtable1[0].start();
             
-            var rtable2 = riot.mount("rtable#tab2", {
-                                        filter: {'column':'carte', value:'bleue'},
-                                        colExcluded : "email", 
-                                        defaultSort:'age', 
-                                        styles: { 
-                                            tableClass:"table table-striped", colHeaderClass:"warning"
-                                        }
-                                    });
-            rtable2[0].start(liste2);
+ 
             
             
         </script>

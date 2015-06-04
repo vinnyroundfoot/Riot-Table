@@ -1,39 +1,42 @@
-riot.tag('rtable', '<div class="rtable"> <raw r="cat&eacute;go&eacute;ie"></raw> <yield></yield> <table class="table table-striped" id="{opts[\'data-id\']}"> <tr class="{this.colHeaderClass}"> <th each="{c in this.colHeader}" data-column="{c.colName}" onclick="{this.parent.click_sort}"><raw r="{c.title}"></raw> <span class="glyphicon glyphicon-arrow-{c.sort}"></span> </th> </tr> <tr each="{ elem, i in this.data }" class="{this.parent.activeLine(i)}" onmouseover="{parent.lineOver }" > <td each="{ d in elem }" >{elem[d]}</td> </tr> </table> </div>', 'rtable table th {cursor:pointer} rtable span.glyphicon { padding-left:10px}', function(opts) {
+riot.tag('rtable', '<div class="rtable" id="rtable-{opts[\'id\']}"> <yield></yield> <table class="{this.styles.tableClass}" id="{table-opts[\'id\']}"> <tr class="{this.styles.colHeaderClass}"> <th class="header-{c.colName} header-sort{c.sort}" each="{c in this.colHeader}" data-column="{c.colName}" onclick="{this.parent._click_sort}"><raw r="{c.title}"></raw> <span class="{parent.styles[\'sort\'+c.sort+\'Class\']}"></span> </th> </tr> <tr each="{ elem, i in this.data }" class="{this.parent._activeLine(i)}" onmouseover="{parent._lineOver }" > <td class="col-{d}" each="{ d, val in elem }" >{val}</td> </tr> </table> </div>', 'rtable table th {cursor:pointer} rtable span.glyphicon { padding-left:10px}', function(opts) {
     this.data         = [];
     this.data_bak     = [];
-    this.sortOrder    = 'up';
+    this.sortOrder    = 'Up';
     this.colHeader    = [];
     this.colExcluded  = [];
     this.colTitle     = {};
-    this.lineFocus  = -1;
-    this.colHeaderClass  = "";
-    this.activeLineClass = '';
-    this.colFilter    = '';
-    this.valueFilter    = '';
+    this.lineFocus    = -1;
+    this.filter       = {column:'', value:''};
+    this.sort         = {column:'', order:''};
+    this.col          = '';
     
     this.on('mount', function() {
       this.init(); 
     });
     
     this.init = function() {
-       this.colHeaderClass  = this.opts.styles.colHeaderClass || this.colHeaderClass;
-       this.activeLineClass = this.opts.styles.activeLineClass || this.activeLineClass;
-       this.colFilter       = this.opts.colFilter || this.colFilter;
-       this.valueFilter     = this.opts.valueFilter || this.valueFilter;
+       this.styles          = this._convertOpts(this.opts.styles,true);
+       
+       this.filter          = this.opts.filter  || this.filter;
+       this.filter          = this._convertOpts(this.filter);
+       
+       this.sort            = this.opts.sort || this.sort;
+       this.sort            = this._convertOpts(this.sort);
+       
        this.colTitle        = this.opts.colTitle || this.colTitle;
        
        if (this.opts['colexcluded']) {
             this.colExcluded = this.opts['colexcluded'].replace(/ /g,'').split(',');
        }
        
-       if (this.activeLineClass ==='') {
-           this.activeLine = function() { return };
+       if (this.styles.activeLineClass ==='') {
+           this._activeLine = null;
+           this._lineOver = null;
        }  
        
        riot.tag('raw', '<span></span>', function(opts) {   
            this.root.innerHTML = opts.r;
        });
-       
     };
     
     this.formatTable = function () {
@@ -41,23 +44,15 @@ riot.tag('rtable', '<div class="rtable"> <raw r="cat&eacute;go&eacute;ie"></raw>
        
        this.colHeader = [];
        for (var i=0, l=keys.length; i<l; i++) {
-           this.colHeader.push({colName:keys[i], title: (this.colTitle[keys[i]] || keys[i]),    tri:''});
+           this.colHeader.push({colName:keys[i], title: (this.colTitle[keys[i]] || keys[i]), sort:''});
        }       
        
-       var colexclude = this.colExcluded;
-       _.each(this.data, function(elem) {
-         for (i=0, l=colexclude.length; i<l; i++) {
-            delete elem[colexclude[i]] ;
-         }
-       });
-       
+        this._cleanData();
+        var colexcluded = this.colExcluded;
         this.colHeader = _.filter(this.colHeader, function(elem){
-            return !_.contains(colexclude,elem.colName);
+            return !_.contains(colexcluded, elem.colName);
         });  
-
-        if (this.opts.defaultSort) {
-            this.sortTable(this.opts.defaultSort); 
-        }
+     
         this.update();        
     };
     
@@ -69,13 +64,17 @@ riot.tag('rtable', '<div class="rtable"> <raw r="cat&eacute;go&eacute;ie"></raw>
             this.data = data;
         }
        this.data_bak = this.data;
-       this.filtrer();
+       this.filterTable();
+       
        this.formatTable();
+       this.sortTable(this.sort.column);
+       this.update();
+       
     };
-   
-    this.filtrer = function() {
-       var colFilter = this.colFilter;
-       var valueFilter = this.valueFilter;        
+  
+    this.filterTable = function() {
+       var colFilter = this.filter.column;
+       var valueFilter = this.filter.value;        
         
        if (colFilter === '') {
             this.data = this.data_bak;
@@ -89,18 +88,78 @@ riot.tag('rtable', '<div class="rtable"> <raw r="cat&eacute;go&eacute;ie"></raw>
                });
            }else{
                this.data = _.filter(this.data_bak, function(elem) {
-                  var r =  (elem[colFilter] == valueFilter) ;
-                  console.log (elem[colFilter] + ' - ' + valueFilter + ' - ' + colFilter + ' - ' + r);
-                  return r;
+                  return (elem[colFilter] == valueFilter) ;
                });          
            }
        } 
-
+       
+       this._cleanData();
        this.update();
     };
    
-   
-    this.tableau = function() {
+    this.sortTable = function(col) {
+        if (this.sort.column !== col) {
+            this.sort.column = col;
+        }
+
+        var ordre =this.sort.order;
+        var colonne = this.sort.column; 
+         
+        this.data = this.data.sort(function(elem1, elem2) {
+            var e1 = elem1[colonne];
+            var e2 = elem2[colonne]; 
+            if (!isNaN(Number(e1) && !isNaN(Number(e2))))   
+            {   
+                e1 = Number(e1);
+                e2 = Number(e2);
+            }
+            
+            if (e1 < e2) {
+                return (ordre==='Down' ? 1 :-1);
+            }else{
+                return (ordre==='Up'? 1 : -1);
+            }
+        });
+
+        if (this.sort.order==="Down") {
+            this.sort.order = 'Up';
+
+        }else{
+            this.sort.order = "Down";
+        };
+
+        for (var i=0, l = this.colHeader.length; i < l; i++) {
+            if (this.colHeader[i].colName === col) {
+                this.colHeader[i].sort = this.sort.order;  
+            }else{
+                this.colHeader[i].sort = '';
+            }
+        }
+    };
+    
+    this._cleanData = function() {
+       var colexclude = this.colExcluded;
+       _.each(this.data, function(elem) {
+         for (i=0, l=colexclude.length; i<l; i++) {
+            delete elem[colexclude[i]] ;
+         }
+       });
+    };
+
+    this._lineOver = function(e) {
+        this.parent.lineFocus = e.item.i;
+    };
+    
+    this._activeLine = function(i) {
+        return (i === this.lineFocus ? this.styles.activeLineClass : '');
+    };
+    
+    this._click_sort = function(e) {
+        var col = e.target.parentElement.getAttribute('data-column');
+        this.parent.sortTable(col); 
+    };    
+    
+    this._tableau = function() {
         var indice = -1;
         var colExcluded =this.colExcluded;
         var $lignes = $('#'+opts['data-id']).children('tbody').children('tr');
@@ -115,51 +174,31 @@ riot.tag('rtable', '<div class="rtable"> <raw r="cat&eacute;go&eacute;ie"></raw>
 
             }
         });
-    };
-     
-    this.lineOver = function(e) {
-        this.parent.lineFocus = e.item.i;
-    };
+    }; 
     
-    this.activeLine = function(i) {
-        if (i == this.lineFocus)
-        {
-            return this.activeLineClass;
-        }else{
-            return '';
-        }
-    };
-    
-    this.click_sort = function(e) {
-
-        var col = e.target.parentElement.getAttribute('data-column')
-        this.parent.sortTable(col); 
-    };
-    
-    
-    this.sortTable = function(col) {
-        if (col !== this.col) {
-            this.sortOrder = 'up';
-            this.col = col;
-        }
-        
-        this.data = _.sortBy(this.data, col);
-        
-        if (this.sortOrder==="down") {
-            this.sortOrder = 'up';
-            this.data.reverse();
-        }else{
-            this.sortOrder = "down";
+    this._convertOpts = function(opt, noStripBlank) {
+        if (!opt) {
+            return;
         };
-
-        for (var i=0, l = this.colHeader.length; i < l; i++) {
-            if (this.colHeader[i].colName === col) {
-                this.colHeader[i].sort = this.sortOrder;  
+        if (typeof(opt)==='object') { 
+            return opt;
+        }else{
+            var r = opt;
+            if (!noStripBlank) {
+                r = r.replace(/ /g,'');
             }else{
-                this.colHeader[i].sort = '';
+                r = r.replace(/, /,',');
             }
+            var r = r.split(',') ;
+            var o = {};
+            for (var i=0,l = r.length;i<l;i++) {
+               var t = (r[i].split(':')); 
+               o[t[0].replace(/ /g,'')] = t[1].trim(); 
+            }
+            return o;
         }
-    };
+   };
+    
     
     
 });

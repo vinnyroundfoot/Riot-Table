@@ -1,13 +1,12 @@
 <rtable>
-    <div class="rtable">
-        <raw r="cat&eacute;go&eacute;ie"></raw>
+    <div class="rtable" id="rtable-{opts['id']}">
         <yield/>
-        <table class="{this.styles.tableClass}" id="{opts['data-id']}"> 
+        <table class="{this.styles.tableClass}" id="{table-opts['id']}"> 
             <tr class="{this.styles.colHeaderClass}"> 
-                <th each={c in this.colHeader} data-column="{c.colName}" onclick="{this.parent._click_sort}"><raw r="{c.title}"></raw> <span class="glyphicon glyphicon-arrow-{c.sort}"></span>  </th>           
+                <th class="header-{c.colName} header-sort{c.sort}" each={c in this.colHeader} data-column="{c.colName}" onclick="{this.parent._click_sort}"><raw r="{c.title}"></raw> <span class="{parent.styles['sort'+c.sort+'Class']}"></span>  </th>           
              </tr> 
             <tr each={ elem, i in this.data } class="{this.parent._activeLine(i)}" onmouseover="{parent._lineOver }"  >
-                <td each={ d in elem } >{elem[d]}</td>
+                <td class="col-{d}" each={ d, val in elem } >{val}</td>
             </tr>  
         </table>
    </div>
@@ -20,14 +19,14 @@
     <script>
     this.data         = [];
     this.data_bak     = [];
-    this.sortOrder    = 'up';
+    this.sortOrder    = 'Up';
     this.colHeader    = [];
     this.colExcluded  = [];
     this.colTitle     = {};
     this.lineFocus    = -1;
-    this.filter = {column:'', value:''};
-    this.sort   = {column:'', order:''};
-    this.col = '';
+    this.filter       = {column:'', value:''};
+    this.sort         = {column:'', order:''};
+    this.col          = '';
     
     this.on('mount', function() {
       this.init(); 
@@ -120,31 +119,32 @@
         if (this.sort.column !== col) {
             this.sort.column = col;
         }
-        
-        //this.data = _.sortBy(this.data, this.sort.column);
+
         var ordre =this.sort.order;
         var colonne = this.sort.column; 
+         
         this.data = this.data.sort(function(elem1, elem2) {
             var e1 = elem1[colonne];
-            var e2 = elem2[colonne];   
+            var e2 = elem2[colonne]; 
             if (!isNaN(Number(e1) && !isNaN(Number(e2))))   
-            {    
+            {   
                 e1 = Number(e1);
                 e2 = Number(e2);
-            }    
+            }
+            
             if (e1 < e2) {
-                return (ordre==='down' ? 1 :-1);
+                return (ordre==='Down' ? 1 :-1);
             }else{
-                return (ordre==='up'? 1 : -1);
+                return (ordre==='Up'? 1 : -1);
             }
         });
-         
         
-        if (this.sort.order==="down") {
-            this.sort.order = 'up';
-           // this.data.reverse();
+        //this.data = _.sortBy(this.data,colonne);
+        if (this.sort.order==="Down") {
+            this.sort.order = 'Up';
+             //this.data.reverse();
         }else{
-            this.sort.order = "down";
+            this.sort.order = "Down";
         };
 
         for (var i=0, l = this.colHeader.length; i < l; i++) {
