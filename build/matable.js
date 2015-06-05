@@ -1,4 +1,4 @@
-riot.tag('rtable', '<div class="rtable" id="rtable-{opts[\'id\']}"> <yield></yield> <table class="{this.styles.tableClass}" id="{table-opts[\'id\']}"> <tr class="{this.styles.colHeaderClass}"> <th class="header-{c.colName} header-sort{c.sort}" each="{c in this.colHeader}" data-column="{c.colName}" onclick="{this.parent._click_sort}"><raw r="{c.title}"></raw> <span class="{parent.styles[\'sort\'+c.sort+\'Class\']}"></span> </th> </tr> <tr each="{ elem, i in this.data }" class="{this.parent._activeLine(i)}" onmouseover="{parent._lineOver }" > <td class="col-{d}" each="{ d, val in elem }" >{val}</td> </tr> </table> </div>', 'rtable table th {cursor:pointer} rtable span.glyphicon { padding-left:10px}', function(opts) {
+riot.tag('rtable', '<div class="rtable" id="rtable-{opts[\'id\']}"> <yield></yield> <table class="{this.styles.tableClass}" id="{table-opts[\'id\']}"> <tr class="{this.styles.colHeaderClass}"> <th class="header-{c.colName} header-sort{c.sort}" each="{c in this.colHeader}" data-column="{c.colName}" onclick="{this.parent._click_sort}"><raw r="{c.title}"></raw> <span class="{parent.styles[\'sort\'+c.sort+\'Class\']}"></span> </th> </tr> <tr each="{ elem, i in this.data }" class="{this.parent._activeLine(i)}" onmouseover="{parent._lineOver }" > <td class="col-{d} {this.parent.parent._isActiveSort(d)}" each="{ d, val in elem }" >{val}</td> </tr> </table> </div>', 'rtable table th {cursor:pointer} rtable span.glyphicon { padding-left:10px}', function(opts) {
     this.data         = [];
     this.data_bak     = [];
     this.sortOrder    = 'Up';
@@ -9,6 +9,7 @@ riot.tag('rtable', '<div class="rtable" id="rtable-{opts[\'id\']}"> <yield></yie
     this.filter       = {column:'', value:''};
     this.sort         = {column:'', order:''};
     this.col          = '';
+    this.activeColSort='';
     
     this.on('mount', function() {
       this.init(); 
@@ -104,6 +105,9 @@ riot.tag('rtable', '<div class="rtable" id="rtable-{opts[\'id\']}"> <yield></yie
 
         var ordre =this.sort.order;
         var colonne = this.sort.column; 
+        
+        this.activeColSort = this.sort.column;
+        
          
         this.data = this.data.sort(function(elem1, elem2) {
             var e1 = elem1[colonne];
@@ -136,6 +140,16 @@ riot.tag('rtable', '<div class="rtable" id="rtable-{opts[\'id\']}"> <yield></yie
             }
         }
     };
+     
+    this._isActiveSort = function(colName) {
+        console.log(colName);
+        if (colName === this.activeColSort) {
+            return this.opts.styles.activeSortClass || '';
+        }else{
+            return '';
+        }
+    }
+    
     
     this._cleanData = function() {
        var colexclude = this.colExcluded;

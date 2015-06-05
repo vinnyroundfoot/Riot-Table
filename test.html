@@ -12,147 +12,140 @@
             .header-name {background-color: #ebebeb !important}
             .col-id, .col-solde {text-align: right}
             .col-name {font-weight: bold; background-color: #eee}
-            
+            .tri-actif { background-color: #ddd}
         </style>
             
-        
    </head>
     <body>
         <div class="container">
-
-                
-                <div class="col-md-12">
+            <div class="col-md-12">
                 <rtable id="tab1" ><h2>Liste 1</h2></rtable>
-                <rtable id="tab2"><h2>Liste 2</h2></rtable>
-                </div>
-
+            </div>
         </div>
        
         <script src="bower_components/riot/riot.js"></script>
         <script src="build/matable.js"  ></script>
         <script>
-       
-
             var liste1= 
-[
-  {
-    "id": 1,
-    "age": 33,
-    "carte": "bleue",
-    "name": "Kristine Davenport",
-    "gender": "female",
-    "email": "kristinedavenport@digigen.com",
-    "solde": 2597.71
-  },
-  {
-    "id": 11,
-    "age": 25,
-    "carte": "rouge",
-    "name": "Greta Bell",
-    "gender": "female",
-    "email": "gretabell@digigen.com",
-    "solde": 3957.3
-  },
-  {
-    "id": 21,
-    "age": 22,
-    "carte": "verte",
-    "name": "Bridgett Petty",
-    "gender": "female",
-    "email": "bridgettpetty@digigen.com",
-    "solde": 268.4
-  },
-  {
-    "id": 31,
-    "age": 57,
-    "carte": "bleue",
-    "name": "Shelly Mcmahon",
-    "gender": "female",
-    "email": "shellymcmahon@digigen.com",
-    "solde": -902.93
-  },
-  {
-    "id": 41,
-    "age": 21,
-    "carte": "rouge",
-    "name": "Robertson Allen",
-    "gender": "male",
-    "email": "robertsonallen@digigen.com",
-    "solde": 2960.4
-  },
-  {
-    "id": 51,
-    "age": 30,
-    "carte": "bleue",
-    "name": "Anna Bray",
-    "gender": "female",
-    "email": "annabray@digigen.com",
-    "solde": -934.82
-  },
-  {
-    "id": 61,
-    "age": 60,
-    "carte": "rouge",
-    "name": "Delacruz Gilbert",
-    "gender": "male",
-    "email": "delacruzgilbert@digigen.com",
-    "solde": -435.77
-  },
-  {
-    "id": 71,
-    "age": 47,
-    "carte": "rouge",
-    "name": "Evans Stephens",
-    "gender": "male",
-    "email": "evansstephens@digigen.com",
-    "solde": 2542.63
-  },
-  {
-    "id": 81,
-    "age": 46,
-    "carte": "bleue",
-    "name": "Carpenter Bailey",
-    "gender": "male",
-    "email": "carpenterbailey@digigen.com",
-    "solde": 620.02
-  },
-  {
-    "id": 91,
-    "age": 52,
-    "carte": "bleue",
-    "name": "Washington Shaffer",
-    "gender": "male",
-    "email": "washingtonshaffer@digigen.com",
-    "solde": 1334.4
-  },
-  {
-    "id": 101,
-    "age": 57,
-    "carte": "verte",
-    "name": "Taylor Conrad",
-    "gender": "female",
-    "email": "taylorconrad@digigen.com",
-    "solde": 2135.11
-  },
-  {
-    "id": 111,
-    "age": 24,
-    "carte": "rouge",
-    "name": "Nelson Roman",
-    "gender": "male",
-    "email": "nelsonroman@digigen.com",
-    "solde": 824.92
-  },
-  {
-    "id": 121,
-    "age": 50,
-    "carte": "rouge",
-    "name": "Rosemarie Mcclure",
-    "gender": "female",
-    "email": "rosemariemcclure@digigen.com",
-    "solde": 2075.19
-  }
-];
+            [
+              {
+                "id": 1,
+                "age": 33,
+                "carte": "bleue",
+                "name": "Kristine Davenport",
+                "gender": "female",
+                "email": "kristinedavenport@digigen.com",
+                "solde": 2597.71
+              },
+              {
+                "id": 11,
+                "age": 25,
+                "carte": "rouge",
+                "name": "Greta Bell",
+                "gender": "female",
+                "email": "gretabell@digigen.com",
+                "solde": 3957.3
+              },
+              {
+                "id": 21,
+                "age": 22,
+                "carte": "verte",
+                "name": "Bridgett Petty",
+                "gender": "female",
+                "email": "bridgettpetty@digigen.com",
+                "solde": 268.4
+              },
+              {
+                "id": 31,
+                "age": 57,
+                "carte": "bleue",
+                "name": "Shelly Mcmahon",
+                "gender": "female",
+                "email": "shellymcmahon@digigen.com",
+                "solde": -902.93
+              },
+              {
+                "id": 41,
+                "age": 21,
+                "carte": "rouge",
+                "name": "Robertson Allen",
+                "gender": "male",
+                "email": "robertsonallen@digigen.com",
+                "solde": 2960.4
+              },
+              {
+                "id": 51,
+                "age": 30,
+                "carte": "bleue",
+                "name": "Anna Bray",
+                "gender": "female",
+                "email": "annabray@digigen.com",
+                "solde": -934.82
+              },
+              {
+                "id": 61,
+                "age": 60,
+                "carte": "rouge",
+                "name": "Delacruz Gilbert",
+                "gender": "male",
+                "email": "delacruzgilbert@digigen.com",
+                "solde": -435.77
+              },
+              {
+                "id": 71,
+                "age": 47,
+                "carte": "rouge",
+                "name": "Evans Stephens",
+                "gender": "male",
+                "email": "evansstephens@digigen.com",
+                "solde": 2542.63
+              },
+              {
+                "id": 81,
+                "age": 46,
+                "carte": "bleue",
+                "name": "Carpenter Bailey",
+                "gender": "male",
+                "email": "carpenterbailey@digigen.com",
+                "solde": 620.02
+              },
+              {
+                "id": 91,
+                "age": 52,
+                "carte": "bleue",
+                "name": "Washington Shaffer",
+                "gender": "male",
+                "email": "washingtonshaffer@digigen.com",
+                "solde": 1334.4
+              },
+              {
+                "id": 101,
+                "age": 57,
+                "carte": "verte",
+                "name": "Taylor Conrad",
+                "gender": "female",
+                "email": "taylorconrad@digigen.com",
+                "solde": 2135.11
+              },
+              {
+                "id": 111,
+                "age": 24,
+                "carte": "rouge",
+                "name": "Nelson Roman",
+                "gender": "male",
+                "email": "nelsonroman@digigen.com",
+                "solde": 824.92
+              },
+              {
+                "id": 121,
+                "age": 50,
+                "carte": "rouge",
+                "name": "Rosemarie Mcclure",
+                "gender": "female",
+                "email": "rosemariemcclure@digigen.com",
+                "solde": 2075.19
+              }
+            ];
 
             var rtable1 = riot.mount("rtable#tab1", {
                                         colTitle: {'name':'Nom'}, 
@@ -164,7 +157,8 @@
                                             colHeaderClass:"info", 
                                             activeLineClass:"active",
                                             sortUpClass:"glyphicon glyphicon-arrow-up",
-                                            sortDownClass:"glyphicon glyphicon-arrow-down"
+                                            sortDownClass:"glyphicon glyphicon-arrow-down",
+                                            activeSortClass : 'tri-actif'
                                         }
                                     });
             rtable1[0].start();
