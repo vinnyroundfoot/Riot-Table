@@ -69,7 +69,7 @@
            this.root.innerHTML = opts.r;
        });
        
-       if ( (this.opts.autostart || 'yes') === 'yes') {
+       if ( (this.opts.autoload || 'yes') === 'yes') {
              this.start();
        };
        
@@ -95,13 +95,13 @@
 
     this.start = function (data) {
         if (!data){       
-           if ((this.opts.clonelist || 'no') === 'no') {
+           if ((this.opts.clonedata || 'no') === 'no') {
               this.data = this.opts.data;
            } else{
               this.data = this._deepCopy(this.opts.data); 
           }
         }else{
-           if ((this.opts.clonelist || 'no') === 'no') {
+           if ((this.opts.clonedata || 'no') === 'no') {
               this.data = data;
            } else{
               this.data = this._deepCopy(data); 

@@ -3,9 +3,24 @@
     <head>
         <title>Example table</title>
         <meta charset="UTF-8">
+        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+        <style>
+            .header {background-color:black; color:white}
+            .white {color: white}
+        </style>
    </head>
     <body>
-        <rtable id="tab"></rtable>
+        
+         <div class="container">
+            <div class="row">
+                <div class="col-md-12">       
+                         <rtable 
+                             id="tab" 
+                             filter="column: gender, value: female"
+                             styles="tableClass:table table-hover table-condensed, colHeaderClass:header, sortUpClass:glyphicon glyphicon-arrow-up white, sortDownClass:glyphicon glyphicon-arrow-down white" ></rtable>
+                </div>
+            </div>
+         </div>
         
         <script src="bower_components/underscore/underscore-min.js"></script>
         <script src="bower_components/riot/riot.js"></script>
@@ -16,7 +31,7 @@
         { "id": 1,  "name": "Guzman Dean", "age": 47, "card": "verte", "gender": "male", "email": "guzmandean@furnafix.com", "solde": 1038.58 },
         { "id": 11, "name": "Trudy James", "age": 21, "card": "rouge", "gender": "female", "email": "trudyjames@furnafix.com", "solde": 3143.17},
         { "id": 21, "name": "Raquel Morrow", "age": 25, "card": "rouge","gender": "female",  "email": "raquelmorrow@furnafix.com","solde": 21.15},
-        { "id": 31, "name": "John Calderon", "age": 35, "card": "bleue","gender": "female", "email": "johncalderon@furnafix.com","solde": 3666.0},
+        { "id": 31, "name": "John Calderon", "age": 35, "card": "bleue","gender": "male", "email": "johncalderon@furnafix.com","solde": 3666.0},
         { "id": 41, "name": "Roslyn Howard", "age": 24, "card": "verte", "gender": "female", "email": "roslynhoward@furnafix.com", "solde": 3086.59},
         { "id": 51, "name": "Joanna Mendez", "age": 48, "card": "bleue", "gender": "female", "email": "joannamendez@furnafix.com", "solde": 994.93 },
         { "id": 61, "name": "Kellie Gonzalez", "age": 60, "card": "verte", "gender": "female", "email": "kelliegonzalez@furnafix.com", "solde": -213.29 }
