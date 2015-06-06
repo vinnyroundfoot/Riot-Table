@@ -1,19 +1,22 @@
 <rtable>
     <div class="rtable" id="rtable-{opts['id']}">
         <yield/>
-        <table class="{this.styles.tableClass}" id="{table-opts['id']}"> 
+        <table class="{this.styles.tableClass}" id="table-{opts['id']}"> 
+            <thead>
             <tr class="{this.styles.colHeaderClass}"> 
                 <th class="header-{c.colName} header-sort{c.sort}" each={c in this.colHeader} data-column="{c.colName}" onclick="{this.parent._click_sort}"><raw r="{c.title}"></raw> <span class="{parent.styles['sort'+c.sort+'Class']}"></span>  </th>           
              </tr> 
+            </thead>
+            <tbody>
             <tr each={ elem, i in this.data } class="{this.parent._activeLine(i)}" onmouseover="{parent._lineOver }"  >
                 <td class="col-{d} {this.parent.parent._isActiveSort(d)}" each={ d, val in elem } >{val}</td>
             </tr>  
+            </tbody>
         </table>
    </div>
        
     <style>
         rtable table th {cursor:pointer}
-        rtable span.glyphicon { padding-left:10px} 
     </style>
     
     <script>
@@ -28,21 +31,30 @@
     this.sort         = {column:'', order:''};
     this.col          = '';
     this.activeColSort='';
-    
+    this.styles       = {tableClass:"", 
+                        colHeaderClass:"", 
+                        activeLineClass:"",
+                        sortUpClass:"",
+                        sortDownClass:"",
+                        activeSortClass : ''
+                    };
+
     this.on('mount', function() {
       this.init(); 
     });
     
     this.init = function() {
-       this.styles          = this._convertOpts(this.opts.styles,true);
+       var styles  = this._convertOpts(this.opts.styles,true);
+       this.styles          = this._mergeOptions(this.styles, styles);
        
        this.filter          = this.opts.filter  || this.filter;
        this.filter          = this._convertOpts(this.filter);
        
-       this.sort            = this.opts.sort || this.sort;
+       this.sort            = this.opts.sort || {'column':'','order':''};
        this.sort            = this._convertOpts(this.sort);
        
-       this.colTitle        = this.opts.colTitle || this.colTitle;
+       this.colTitle        = this.opts.coltitle || this.colTitle;
+       this.colTitle        = this._convertOpts(this.colTitle);
        
        if (this.opts['colexcluded']) {
             this.colExcluded = this.opts['colexcluded'].replace(/ /g,'').split(',');
@@ -56,6 +68,11 @@
        riot.tag('raw', '<span></span>', function(opts) {   
            this.root.innerHTML = opts.r;
        });
+       
+       if ( (this.opts.autostart || 'yes') === 'yes') {
+             this.start();
+       };
+       
     };
     
     this.formatTable = function () {
@@ -77,13 +94,22 @@
     
 
     this.start = function (data) {
-        if (!data) {
-           this.data = this.opts.data; 
+        if (!data){       
+           if ((this.opts.clonelist || 'no') === 'no') {
+              this.data = this.opts.data;
+           } else{
+              this.data = this._deepCopy(this.opts.data); 
+          }
         }else{
-            this.data = data;
+           if ((this.opts.clonelist || 'no') === 'no') {
+              this.data = data;
+           } else{
+              this.data = this._deepCopy(data); 
+          }
         }
-       this.data_bak = this.data;
-       this.filterTable();
+        
+        this.data_bak = this.data;
+        this.filterTable();
        
        this.formatTable();
        this.sortTable(this.sort.column);
@@ -92,8 +118,8 @@
     };
   
     this.filterTable = function() {
-       var colFilter = this.filter.column;
-       var valueFilter = this.filter.value;        
+       var colFilter = this.filter.column,
+           valueFilter = this.filter.value;        
         
        if (colFilter === '') {
             this.data = this.data_bak;
@@ -117,6 +143,12 @@
     };
    
     this.sortTable = function(col) {
+        
+        if (col==='') {
+            return;
+        }
+        
+        
         if (this.sort.column !== col) {
             this.sort.column = col;
         }
@@ -125,7 +157,6 @@
         var colonne = this.sort.column; 
         
         this.activeColSort = this.sort.column;
-        
          
         this.data = this.data.sort(function(elem1, elem2) {
             var e1 = elem1[colonne];
@@ -161,13 +192,12 @@
     };
      
     this._isActiveSort = function(colName) {
-        console.log(colName);
         if (colName === this.activeColSort) {
             return this.opts.styles.activeSortClass || '';
         }else{
             return '';
         }
-    }
+    };
     
     
     this._cleanData = function() {
@@ -231,8 +261,39 @@
             return o;
         }
    };
-    
+   
+   this._mergeOptions = function (obj1,obj2){
+    var obj3 = {};
+    for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
+    for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
+    return obj3;
+   }; 
+   
+   
+   this._deepCopy1 = function (obj) {
+    if (Object.prototype.toString.call(obj) === '[object Array]') {
+        var out = [], i = 0, len = obj.length;
+        for ( ; i < len; i++ ) {
+            out[i] = arguments.callee(obj[i]);
+        }
+        return out;
+    }
+    if (typeof obj === 'object') {
+        var out = {}, i;
+        for ( i in obj ) {
+            out[i] = arguments.callee(obj[i]);
+        }
+        return out;
+    }
+    return obj;
+  }
+   
+  this._deepCopy = function(obj) {
+     return _.map(obj, _.clone);   
+  } ;
+   
     
     </script>
+    
        
 </rtable>

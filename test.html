@@ -4,167 +4,160 @@
         <title>Example table</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="bower_components/jquery/dist/jquery.min.js"></script>
         <script src="bower_components/underscore/underscore-min.js"></script>
         <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
         
         <style>
-            .header-name {background-color: #ebebeb !important}
-            .col-id, .col-solde {text-align: right}
-            .col-name {font-weight: bold; background-color: #eee}
-            .tri-actif { background-color: #ddd}
-        </style>
+            .header {background-color: #080808; color:white}
+            .col-id, .col-age {font-weight: bold; background-color: #eee; width: 60px;text-align: right}
+     
+            .tri-actif { background-color: #A3FF45}
+            table { border: 2px solid #080808;}
+           .white, .white a {
+              color: #fff;
+            }
+
             
+        </style>
+ 
+        
    </head>
     <body>
         <div class="container">
-            <div class="col-md-12">
-                <rtable id="tab1" ><h2>Liste 1</h2></rtable>
+            <div class="row">
+                <div class="col-md-12">
+             
+                <rtable id="tab0" 
+                  clonelist="yes"      
+                  colexcluded="email, solde" 
+                  coltitle="name: Nom, id: N°, age:Age, gender:Genre"
+                  sort="column:name, order:up" 
+                  styles="tableClass:table table-hover table-condensed, colHeaderClass:header"                      
+                >
+                    <h2>Liste 0</h2>
+                </rtable>
+                </div>
             </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <rtable id="tab1" ><h2>Liste 1</h2></rtable>
+                </div>
+            
+                <div class="col-md-6">
+                   <rtable id="tab2" ><h2>Liste 2</h2></rtable>
+               </div>  
+            </div>
+            
+
         </div>
        
         <script src="bower_components/riot/riot.js"></script>
-        <script src="build/matable.js"  ></script>
+        <script src="build/rtable.js"  ></script>
         <script>
             var liste1= 
-            [
-              {
-                "id": 1,
-                "age": 33,
-                "carte": "bleue",
-                "name": "Kristine Davenport",
-                "gender": "female",
-                "email": "kristinedavenport@digigen.com",
-                "solde": 2597.71
-              },
-              {
-                "id": 11,
-                "age": 25,
-                "carte": "rouge",
-                "name": "Greta Bell",
-                "gender": "female",
-                "email": "gretabell@digigen.com",
-                "solde": 3957.3
-              },
-              {
-                "id": 21,
-                "age": 22,
-                "carte": "verte",
-                "name": "Bridgett Petty",
-                "gender": "female",
-                "email": "bridgettpetty@digigen.com",
-                "solde": 268.4
-              },
-              {
-                "id": 31,
-                "age": 57,
-                "carte": "bleue",
-                "name": "Shelly Mcmahon",
-                "gender": "female",
-                "email": "shellymcmahon@digigen.com",
-                "solde": -902.93
-              },
-              {
-                "id": 41,
-                "age": 21,
-                "carte": "rouge",
-                "name": "Robertson Allen",
-                "gender": "male",
-                "email": "robertsonallen@digigen.com",
-                "solde": 2960.4
-              },
-              {
-                "id": 51,
-                "age": 30,
-                "carte": "bleue",
-                "name": "Anna Bray",
-                "gender": "female",
-                "email": "annabray@digigen.com",
-                "solde": -934.82
-              },
-              {
-                "id": 61,
-                "age": 60,
-                "carte": "rouge",
-                "name": "Delacruz Gilbert",
-                "gender": "male",
-                "email": "delacruzgilbert@digigen.com",
-                "solde": -435.77
-              },
-              {
-                "id": 71,
-                "age": 47,
-                "carte": "rouge",
-                "name": "Evans Stephens",
-                "gender": "male",
-                "email": "evansstephens@digigen.com",
-                "solde": 2542.63
-              },
-              {
-                "id": 81,
-                "age": 46,
-                "carte": "bleue",
-                "name": "Carpenter Bailey",
-                "gender": "male",
-                "email": "carpenterbailey@digigen.com",
-                "solde": 620.02
-              },
-              {
-                "id": 91,
-                "age": 52,
-                "carte": "bleue",
-                "name": "Washington Shaffer",
-                "gender": "male",
-                "email": "washingtonshaffer@digigen.com",
-                "solde": 1334.4
-              },
-              {
-                "id": 101,
-                "age": 57,
-                "carte": "verte",
-                "name": "Taylor Conrad",
-                "gender": "female",
-                "email": "taylorconrad@digigen.com",
-                "solde": 2135.11
-              },
-              {
-                "id": 111,
-                "age": 24,
-                "carte": "rouge",
-                "name": "Nelson Roman",
-                "gender": "male",
-                "email": "nelsonroman@digigen.com",
-                "solde": 824.92
-              },
-              {
-                "id": 121,
-                "age": 50,
-                "carte": "rouge",
-                "name": "Rosemarie Mcclure",
-                "gender": "female",
-                "email": "rosemariemcclure@digigen.com",
-                "solde": 2075.19
-              }
-            ];
+     [
+  {
+    "id": 1,
+    "name": "Guzman Dean",
+    "age": 47,
+    "card": "verte",
+    "gender": "male",
+    "email": "guzmandean@furnafix.com",
+    "solde": 1038.58
+  },
+  {
+    "id": 11,
+    "name": "Trudy James",
+    "age": 21,
+    "card": "rouge",
+    "gender": "female",
+    "email": "trudyjames@furnafix.com",
+    "solde": 3143.17
+  },
+  {
+    "id": 21,
+    "name": "Raquel Morrow",
+    "age": 25,
+    "card": "rouge",
+    "gender": "female",
+    "email": "raquelmorrow@furnafix.com",
+    "solde": 21.15
+  },
+  {
+    "id": 31,
+    "name": "John Calderon",
+    "age": 35,
+    "card": "bleue",
+    "gender": "female",
+    "email": "johncalderon@furnafix.com",
+    "solde": 3666.5
+  },
+  {
+    "id": 41,
+    "name": "Roslyn Howard",
+    "age": 24,
+    "card": "verte",
+    "gender": "female",
+    "email": "roslynhoward@furnafix.com",
+    "solde": 3086.59
+  },
+  {
+    "id": 51,
+    "name": "Joanna Mendez",
+    "age": 48,
+    "card": "bleue",
+    "gender": "female",
+    "email": "joannamendez@furnafix.com",
+    "solde": 994.93
+  },
+  {
+    "id": 61,
+    "name": "Kellie Gonzalez",
+    "age": 60,
+    "card": "verte",
+    "gender": "female",
+    "email": "kelliegonzalez@furnafix.com",
+    "solde": -213.29
+  }
+];
+
+            var rtable0 = riot.mount('rtable#tab0', {data:liste1});
 
             var rtable1 = riot.mount("rtable#tab1", {
-                                        colTitle: {'name':'Nom'}, 
+                                        autostart: 'yes',
+                                        clonelist:'yes',
+                                        coltitle: {'name':'Nom'}, 
                                         colexcluded : "email, gender", 
                                         sort: {column:'id',order:'Up'},
+                                        //filter  : {column:'carte',value:'rouge'},
                                         data:liste1, 
                                         styles: { 
-                                            tableClass:"table table-bordered", 
-                                            colHeaderClass:"info", 
-                                            activeLineClass:"active",
-                                            sortUpClass:"glyphicon glyphicon-arrow-up",
-                                            sortDownClass:"glyphicon glyphicon-arrow-down",
+                                            tableClass:"table-hover", 
+                                            colHeaderClass:"header", 
+                                            //activeLineClass:"active",
+                                            sortUpClass:"glyphicon glyphicon-arrow-up white",
+                                            sortDownClass:"glyphicon glyphicon-arrow-down white",
                                             activeSortClass : 'tri-actif'
                                         }
                                     });
-            rtable1[0].start();
+            //rtable1[0].start();
             
- 
-            
+             var rtable2 = riot.mount("rtable#tab2", {
+                                        clonelist:'yes',
+                                        data:liste1, 
+                                        filter  : {column:'carte',value:'rouge'},
+                                        styles: { 
+                                            tableClass:"table-hover", 
+                                            colHeaderClass:"header", 
+                                            //activeLineClass:"active",
+                                            sortUpClass:"glyphicon glyphicon-arrow-up white",
+                                            sortDownClass:"glyphicon glyphicon-arrow-down white",
+                                            activeSortClass : 'tri-actif'
+                                        }
+                                    });
+
+
             
         </script>
     </body>
