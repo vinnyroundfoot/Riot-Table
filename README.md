@@ -75,8 +75,11 @@ Options
 -
 You can configure **&lt;rtable\>** with the following options :
 
+**WARNING** : all options muste by specified un lowercase (ex. colexcluded, not colExcluded)
+
+
 #### **colexcluded**
- let you omit displaying specified columns on the table. 
+ let you exclude specified columns before displays the table. 
 
 syntax : colexcluded="columnToHide1, columnToHide2"
 
@@ -85,6 +88,19 @@ example :
 `<rtable id="tab" colexcluded="email, solde" ></rtable>`
 
 the column "email" and "solde" are removed from the table display.
+
+####**collist**
+let you specify the display order of columns.
+columns not specified in this options are not shown.
+
+syntax : collist="column1, column2, column3"
+
+example :
+
+`<rtable id="tab" collist= "gender, name, id" ></rtable>`
+
+The display order of the columns are the following : gender, name and id. Others columns (email and solde are not shown)
+
 
 ####**coltitle**
 enable you to change the label of the columns.
