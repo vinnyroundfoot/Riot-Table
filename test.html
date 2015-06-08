@@ -6,7 +6,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="bower_components/underscore/underscore-min.js"></script>
         <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
-        
         <style>
             .header {background-color: #080808; color:white}
             .col-id, .col-age {font-weight: bold; background-color: #eee; width: 60px;text-align: right}
@@ -16,11 +15,7 @@
            .white, .white a {
               color: #fff;
             }
-
-            
         </style>
- 
-        
    </head>
     <body>
         <div class="container">
@@ -29,9 +24,9 @@
              
                 <rtable id="tab0" 
                   clonedata="yes"      
-                  colexcluded="email, solde" 
-                  coltitle="name: Nom, id: N°, age:Age, gender:Genre"
-                  sort="column:name, order:up" 
+                  coltitle="name: Nom,  gender:Genre"
+                  collist="id, gender, card, name, email, solde"
+                  sort="column:gender, order:Up" 
                   styles="tableClass:table table-hover table-condensed, colHeaderClass:header"                      
                 >
                     <h2>Liste 0</h2>
@@ -71,7 +66,7 @@
     "name": "Trudy James",
     "age": 21,
     "card": "rouge",
-    "gender": "female",
+    "gender": "male",
     "email": "trudyjames@furnafix.com",
     "solde": 3143.17
   },
@@ -98,7 +93,7 @@
     "name": "Roslyn Howard",
     "age": 24,
     "card": "verte",
-    "gender": "female",
+    "gender": "male",
     "email": "roslynhoward@furnafix.com",
     "solde": 3086.59
   },
@@ -124,14 +119,16 @@
 
             var rtable0 = riot.mount('rtable#tab0', {data:liste1});
 
+
+
             var rtable1 = riot.mount("rtable#tab1", {
                                         data: liste1,                                
                                         autoload: 'yes',
                                         clonedata:'yes',
                                         coltitle: {'name':'Nom'}, 
-                                        colexcluded : "email, card", 
+                                        //collist:"name, gender",
                                         sort: {column:'id',order:'Up'},
-                                        filter  : {column:'gender',value:'female'},
+                                        //filter  : {column:'gender',value:'female'},
                                         styles: { 
                                             tableClass:"table-hover", 
                                             colHeaderClass:"header", 

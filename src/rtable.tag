@@ -9,7 +9,7 @@
             </thead>
             <tbody>
             <tr each={ elem, i in this.data } class="{this.parent._activeLine(i)}" onmouseover="{parent._lineOver }"  >
-                <td class="col-{d} {this.parent.parent._isActiveSort(d)}" each={ d, val in elem } >{val}</td>
+                <td class="col-{d} {this.parent.parent._isActiveSort(d)}" each={ d, val in this.parent._colList } >{elem[d]}</td>
             </tr>  
             </tbody>
         </table>
@@ -27,8 +27,9 @@
     this.colExcluded  = [];
     this.colTitle     = {};
     this.lineFocus    = -1;
-    this.filter       = {column:'', value:''};
-    this.sort         = {column:'', order:''};
+    this._filter      = {column:'', value:''};
+    this._sort        = {column:'', order:''};
+    this._colList     = [];     
     this.col          = '';
     this.activeColSort='';
     this.styles       = {tableClass:"", 
@@ -44,14 +45,14 @@
     });
     
     this.init = function() {
-       var styles  = this._convertOpts(this.opts.styles,true);
+       var styles           = this._convertOpts(this.opts.styles, true);
        this.styles          = this._mergeOptions(this.styles, styles);
        
-       this.filter          = this.opts.filter  || this.filter;
-       this.filter          = this._convertOpts(this.filter);
+       this._filter          = this.opts.filter  || this._filter;
+       this._filter          = this._convertOpts(this._filter);
        
-       this.sort            = this.opts.sort || {'column':'','order':''};
-       this.sort            = this._convertOpts(this.sort);
+       this._sort            = this.opts.sort || {'column':'','order':''};
+       this._sort            = this._convertOpts(this._sort);
        
        this.colTitle        = this.opts.coltitle || this.colTitle;
        this.colTitle        = this._convertOpts(this.colTitle);
@@ -59,7 +60,7 @@
        if (this.opts['colexcluded']) {
             this.colExcluded = this.opts['colexcluded'].replace(/ /g,'').split(',');
        }
-       
+   
        if (this.styles.activeLineClass ==='') {
            this._activeLine = null;
            this._lineOver = null;
@@ -72,26 +73,7 @@
        if ( (this.opts.autoload || 'yes') === 'yes') {
              this.start();
        };
-       
     };
-    
-    this.formatTable = function () {
-       var keys = Object.keys(this.data[0]);
-       
-       this.colHeader = [];
-       for (var i=0, l=keys.length; i<l; i++) {
-           this.colHeader.push({colName:keys[i], title: (this.colTitle[keys[i]] || keys[i]), sort:''});
-       }       
-       
-        this._cleanData();
-        var colexcluded = this.colExcluded;
-        this.colHeader = _.filter(this.colHeader, function(elem){
-            return !_.contains(colexcluded, elem.colName);
-        });  
-     
-        this.update();        
-    };
-    
 
     this.start = function (data) {
         if (!data){       
@@ -108,56 +90,90 @@
           }
         }
         
-        this.data_bak = this.data;
-        this.filterTable();
-       
-       this.formatTable();
-       this.sortTable(this.sort.column);
+       this.data_bak = this.data;
+       this.filterTable();
+       this.rebuildTable(this.opts['collist']);
+       this.sortTable({column:this._sort.column, order:this._sort.order});
        this.update();
-       
+       return this;
+    };
+    
+    
+    this.rebuildTable = function(colList) {
+        if (colList) {
+            if (typeof(colList)==='string') {
+                this._colList = colList.replace(/ /g,'').split(',');
+            }else{
+                this._colList = colList;
+            }
+        }
+        this._formatTable();
+        return this;
+        
     };
   
-    this.filterTable = function() {
-       var colFilter = this.filter.column,
-           valueFilter = this.filter.value;        
+    this.filterTable = function(filterObject) {
+        
+       if (filterObject && filterObject.column && filterObject.value) {
+           this._filter.column = filterObject.column;
+           this._filter.value  = filterObject.value;
+           this._filter.append = filterObject.append;
+       }  
+        
+       var colFilter   = this._filter.column,
+           valueFilter = this._filter.value,
+           append      = this._filter.append || 'no';
         
        if (colFilter === '') {
             this.data = this.data_bak;
        }else{
            var pos = valueFilter.indexOf("*");
+           var dataTofilter = (append === 'yes' ? this.data : this.data_bak);
+           
            if (pos > -1 && pos === valueFilter.length-1)
            {    
-               this.data = _.filter(this.data_bak, function(elem) {
+               this.data = _.filter(dataTofilter, function(elem) {
                   var filval = valueFilter.replace('*',''); 
                   return (elem[colFilter].startsWith(filval)) ;
                });
            }else{
-               this.data = _.filter(this.data_bak, function(elem) {
+               this.data = _.filter(dataTofilter, function(elem) {
                   return (elem[colFilter] == valueFilter) ;
                });          
            }
-       } 
-       
+       }
        this._cleanData();
-       this.update();
+       return this;
+       //this.update();
+    };
+    
+    this.clearFilter = function() {
+        this._filter.column='';
+        this.filterTable();
+        return this;
     };
    
-    this.sortTable = function(col) {
+    this.sortTable = function(sortObject) {
+        var col ='';
+        
+        if (sortObject && sortObject.column) {
+           col = sortObject.column;
+           if (sortObject.order) {
+               this._sort.order = sortObject.order;
+           }
+        } 
         
         if (col==='') {
             return;
         }
         
-        
-        if (this.sort.column !== col) {
-            this.sort.column = col;
+        if (this._sort.column !== col) {
+            this._sort.column = col;
         }
 
-        var ordre =this.sort.order;
-        var colonne = this.sort.column; 
-        
-        this.activeColSort = this.sort.column;
-         
+        var ordre =this._sort.order;
+        var colonne = this._sort.column; 
+        this.activeColSort = this._sort.column;
         this.data = this.data.sort(function(elem1, elem2) {
             var e1 = elem1[colonne];
             var e2 = elem2[colonne]; 
@@ -175,20 +191,23 @@
         });
         
         //this.data = _.sortBy(this.data,colonne);
-        if (this.sort.order==="Down") {
-            this.sort.order = 'Up';
+        if (this._sort.order==="Down") {
+            this._sort.order = 'Up';
              //this.data.reverse();
         }else{
-            this.sort.order = "Down";
+            this._sort.order = "Down";
         };
 
         for (var i=0, l = this.colHeader.length; i < l; i++) {
             if (this.colHeader[i].colName === col) {
-                this.colHeader[i].sort = this.sort.order;  
+                this.colHeader[i].sort = this._sort.order;  
             }else{
                 this.colHeader[i].sort = '';
             }
         }
+        
+        return this;
+ 
     };
      
     this._isActiveSort = function(colName) {
@@ -198,7 +217,6 @@
             return '';
         }
     };
-    
     
     this._cleanData = function() {
        var colexclude = this.colExcluded;
@@ -218,8 +236,11 @@
     };
     
     this._click_sort = function(e) {
-        var col = e.target.parentElement.getAttribute('data-column');
-        this.parent.sortTable(col); 
+        var col = e.target.parentElement.getAttribute('data-column'),
+            sortOrder = _.where(this.parent.colHeader, {colName: col});
+        
+        sortOrder = sortOrder[0].sort || 'Up';
+        this.parent.sortTable({column:col, order: sortOrder}); 
     };    
     
     this._tableau = function() {
@@ -238,6 +259,30 @@
             }
         });
     }; 
+    
+    this._formatTable = function () {
+       var colExist = false;
+       if (this._colList.length>0)
+       {
+           var keys = this._colList;
+           colExist = true;
+       }else{
+           var keys = Object.keys(this.data[0]);
+       }
+       
+       this.colHeader = [];
+       for (var i=0, l=keys.length; i<l; i++) {
+            this.colHeader.push({colName:keys[i], title: (this.colTitle[keys[i]] || keys[i]), sort:''});
+            if (!colExist) {this._colList.push(keys[i]);}
+       }       
+       this._cleanData();
+       var colexcluded = this.colExcluded;
+       this.colHeader = _.filter(this.colHeader, function(elem){
+           return !_.contains(colexcluded, elem.colName);
+       });  
+     
+       this.update();        
+    };    
     
     this._convertOpts = function(opt, noStripBlank) {
         if (!opt) {
@@ -291,9 +336,8 @@
   this._deepCopy = function(obj) {
      return _.map(obj, _.clone);   
   } ;
-   
-    
-    </script>
+
+  </script>
     
        
 </rtable>
