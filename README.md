@@ -13,6 +13,10 @@ Features of **&lt;rtable\>**  are the following :
 - possibility  to remove column of the array 
 - possiblity to change the label of column
 
+Demo
+-
+See **&lt;rtable>** in [action](http://vinnyroundfoot.github.io/) 
+
 Requirements
 -
 Obviously, **&lt;rtable\>** needs **Riot.js** to run.
