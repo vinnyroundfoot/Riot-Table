@@ -31,7 +31,7 @@ Basic Example
             <rtable id="tab"></rtable>
             
             <script src="bower_components/underscore/underscore-min.js"></script>
-            <script src="bower_components/riot/riot.js"></script>
+            <script src="bower_components/riot/riot.min.js"></script>
             <script src="build/rtable.js" ></script>
             <script>
              var list= 
@@ -49,6 +49,22 @@ Basic Example
             </script>
         </body>
     </html>
+
+Usage
+-
+Once you have included riot.js and undescore.js libraries. you need to :
+
+1. include the javascript file rtable.js (after riot.js). In the example, rtable.js is located in the "build" folder.
+
+	**&lt;script src="build/rtable.js" >&lt;/script>**
+	
+2. add the tag &lt;rtable>&lt;/rtable> where you want to place it. Add an ID to the tag to clearly identify it.
+
+	**&lt;rtable id="tab">&lt;/rtable>**
+
+3. "mount" the tag with a call to the riot.mount function. riot.mount returns a array containing a reference to the tag. Options can be passed to the tag by using a object as second argument. In this object, you pass your array containing your information by using the 'data' property.
+
+	**var rtable = riot.mount('rtable#tab', {data:list});**
 
 
 Options
@@ -135,7 +151,7 @@ example :
 > **remark:**
 	- if omitted, this option is set to "yes".
 
-####**clonedata
+####**clonedata**
 Let you specify if the source of data has to be "clone" to another array. it can be useful when multiples tables have the same source of data.
 
 syntax : clonedata="yes/no"
@@ -146,3 +162,63 @@ example :
 
 > **remark:**
 	- if omitted, this option is set to "no".
+
+
+####Using options in the riot.mount call
+Instead of incude the options inside the &lt;rtable> tag, you can include these options in the second arguments of the riot.mount function. 
+
+Here is a example of this usage with all the options :
+
+    var rtable = riot.mount("rtable#tab", {
+                           data: liste1,                                
+                           autoload: 'yes',
+                           clonedata:'yes',
+                           coltitle: {'name':'Nom'}, 
+                           colexcluded : "email, card", 
+                           sort: {column:'id',order:'Up'},
+                           filter  : {column:'gender',value:'female'},
+                           styles: { 
+                               tableClass:"table-hover", 
+                               colHeaderClass:"header", 
+                               activeLineClass:"active",
+                               sortUpClass:"glyphicon glyphicon-arrow-up white",
+                               sortDownClass:"glyphicon glyphicon-arrow-down white",
+                               activeSortClass : 'tri-actif'
+                           }
+                       });
+
+
+###DOM Elements and CSS Classes
+
+when mounted, the **&lt;rtable>**  tag is rendered with the following structure :
+
+    <rtable id="?id?">
+    <div class="rtable" id="rtable-?id?">
+       <table id="table-?id?" class="?tableClass?">
+          <thead>
+             <tr class="?header?">
+                <th class="header-?cold? header-sort-?sort?" data-column="?col?">
+                   <raw r="?col?">?col?<span class="?sortClass?"></span></raw>
+                </th> 
+                ...
+             </tr>
+          </thead>
+          <tbody>
+             <tr class="?activeline?">
+                <td class="col-?col? ?activeSort?">...</td>
+                ...
+            </tr>
+            ...
+         <tbody>
+      </table>
+      </div>
+      </rtable>
+                
+  - **?id?** is replaced by the id value of the &lt;rtable> tag
+  - **?tableClass?** is replace by the value of styles.tableClass
+  - **?header**? is replaced by the value of styles.colHeaderClass
+  - **?sort?** is replaced by "sortUp" or "sortDown" depending of the sort order
+  - **?col?** is replaced by the name of the "data field" (example : age)
+  - **?sortClass?** is replaced by the value of styles.sortUpClass or styles.sortDownClass depending on the sort order
+  - **?activeline?** is replaced by the value of styles.activeLineClass
+  - **?activeSort?** is replaced by the value of styles.activeSortClass

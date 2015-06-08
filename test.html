@@ -52,7 +52,7 @@
 
         </div>
        
-        <script src="bower_components/riot/riot.js"></script>
+        <script src="bower_components/riot/riot.min.js"></script>
         <script src="build/rtable.js"  ></script>
         <script>
             var liste1= 
@@ -125,17 +125,17 @@
             var rtable0 = riot.mount('rtable#tab0', {data:liste1});
 
             var rtable1 = riot.mount("rtable#tab1", {
+                                        data: liste1,                                
                                         autoload: 'yes',
                                         clonedata:'yes',
                                         coltitle: {'name':'Nom'}, 
-                                        colexcluded : "email, gender", 
+                                        colexcluded : "email, card", 
                                         sort: {column:'id',order:'Up'},
-                                        //filter  : {column:'carte',value:'rouge'},
-                                        data:liste1, 
+                                        filter  : {column:'gender',value:'female'},
                                         styles: { 
                                             tableClass:"table-hover", 
                                             colHeaderClass:"header", 
-                                            //activeLineClass:"active",
+                                            activeLineClass:"active",
                                             sortUpClass:"glyphicon glyphicon-arrow-up white",
                                             sortDownClass:"glyphicon glyphicon-arrow-down white",
                                             activeSortClass : 'tri-actif'
