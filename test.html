@@ -25,7 +25,7 @@
                 <rtable id="tab0" 
                   clonedata="yes"      
                   coltitle="name: Nom,  gender:Genre"
-                  collist="id, gender, card, name, email, solde"
+                  colExcluded="solde"
                   sort="column:gender, order:Up" 
                   styles="tableClass:table table-hover table-condensed, colHeaderClass:header"                      
                 >
@@ -146,9 +146,9 @@
                                         data:liste1, 
                                         filter  : {column:'gender',value:'female'},
                                         styles: { 
-                                            tableClass:"table-hover", 
+                                            tableClass:"table table-condensed", 
                                             colHeaderClass:"header", 
-                                            //activeLineClass:"active",
+                                            activeLineClass:"active",
                                             sortUpClass:"glyphicon glyphicon-arrow-up white",
                                             sortDownClass:"glyphicon glyphicon-arrow-down white",
                                             activeSortClass : 'tri-actif'

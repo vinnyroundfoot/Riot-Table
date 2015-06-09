@@ -195,6 +195,7 @@ Here is a example of this usage with all the options :
                            clonedata:'yes',
                            coltitle: {'name':'Nom'}, 
                            colexcluded : "email, card", 
+                           collist : "gender, name, id",
                            sort: {column:'id',order:'Up'},
                            filter  : {column:'gender',value:'female'},
                            styles: { 
@@ -242,3 +243,65 @@ when mounted, the **&lt;rtable>**  tag is rendered with the following structure 
   - **?sortClass?** is replaced by the value of styles.sortUpClass or styles.sortDownClass depending on the sort order
   - **?activeline?** is replaced by the value of styles.activeLineClass
   - **?activeSort?** is replaced by the value of styles.activeSortClass
+
+### &lt;rtable> manipulation  with javascript
+The following methods are available to manipulate the &lt;rtable> with javascript :
+
+- .init()
+- loadData(data, clonedata)
+- .rebuildTable(colList)
+- .filterTable({column: 'colToFilter', value:'value to filter on')
+- .clearFilter()
+- .sortTable({column:'colToSort', order:'Up/Down')
+- .update()
+
+To use these methods, you first need a reference to the &lt;rtable>.
+**riot.mount** provides you this reference :
+
+    var rtable = riot.mount('rtable#tab', {data:list});
+
+However, riot.mount returns an array of all the tag found with this id.
+So, to get the first &lt;rtable> tag, we use get the first element of the array returned by riot.mount function.
+
+    var myRtable = rtable[0];
+
+Now, we can use the myRtable to call any methods exposed by the &lt;rtable> component.
+
+    myRtable.filterTable({column:'gender', value: 'female'});
+    myRtable.update();
+
+Most of these exposed methodes return the &lt;rtable> component (except update() method). So we can use chaining :
+
+    myRtable.filterTable({column:'gender', value: 'female'}).update();
+
+####.init() method
+init or (re)init the &lt;rtable> with the options specified in the &lt;rtable> tag or when using the riot.mount function.
+
+####.loadData(data, cloneData)
+load a (new) array of data into the &lt;rtable> component. 
+
+- data : array of data to load;
+- cloneData : 'yes' or 'no' indicate if the data must be cloned in a new array (to preserve the original ones). If no specified, the default value of this parameter is 'no';
+
+Call to this method should be (must be) followed by a call to update() method to redraw the &lt;rtable>.
+
+    var newData = ["name":"jean"];
+    myRtable.loadData(newData).update();
+
+###.rebuildTable(colList)
+redraw the &lt;rtable> component with the columns specified as arguments
+
+- colList : comma delimited string of colums name.
+
+    myRtable.rebuildTable('id, name, age');
+
+Warning : specified columns should not have been exclued with the "colExcluded" option.
+
+###.filterTable(filterObject)
+filter &lt;rtable> based on the filterObject
+
+- filterObjet : {column: 'colToFilter', value:'filterValue', append:'yes/no'}
+
+        myRtable.filterTable({column:'gender', value:'female'}).update();
+
+Call to this method should be (must be) followed by a call to update() method to redraw the &lt;rtable>.
