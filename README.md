@@ -120,7 +120,7 @@ example :
 
 > **remarks:**
 - be sure to use "Up" or "Down" with first letter uppercase.
-- You can only sort on only column at a time
+- You can sort on only column at a time
 	
 
 ####**filter** 
@@ -133,7 +133,7 @@ example :
     <rtable id="tab" filter="column: gender, value: male" ></rtable>
 
 > **remarks:**
-- you can only filter on only one column at a time.
+- you can filter on only one column at a time.
 - ending the value with '*' let you filter on the beginning of the string
 
 ####**styles** 
@@ -288,20 +288,37 @@ Call to this method should be (must be) followed by a call to update() method to
     var newData = ["name":"jean"];
     myRtable.loadData(newData).update();
 
-###.rebuildTable(colList)
+####.rebuildTable(colList)
 redraw the &lt;rtable> component with the columns specified as arguments
 
 - colList : comma delimited string of colums name.
 
+myRtable.rebuildTable('id, name, age');
+
     myRtable.rebuildTable('id, name, age');
 
-Warning : specified columns should not have been exclued with the "colExcluded" option.
 
-###.filterTable(filterObject)
-filter &lt;rtable> based on the filterObject
+**Warning** : specified columns should not have been exclued with the "colExcluded" option.
 
-- filterObjet : {column: 'colToFilter', value:'filterValue', append:'yes/no'}
+####.filterTable({column: 'colToFilter', value:'filterValue', append: 'yes/no'})
+filter &lt;rtable> based on the filterObject passed as argument
 
         myRtable.filterTable({column:'gender', value:'female'}).update();
-
+        
 Call to this method should be (must be) followed by a call to update() method to redraw the &lt;rtable>.
+
+####.clearFilter()
+clear the current filter.
+
+	myRtable.clearFilter().update();
+  
+Call to this method should be (must be) followed by a call to update() method to redraw the &lt;rtable>.
+
+####.sortTable({column:'colToSort', order:'Up/Down'})
+Sort &lt;rtable> based on the sort object passed as argument.
+
+    myRtable.sortTable({column:'id', order:'Up'});
+
+####.update()
+Call the Riot.update() function to update the &lt;rtable> component.
+ 
