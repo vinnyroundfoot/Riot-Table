@@ -9,6 +9,15 @@
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
     <title>Riot-table</title>
+    
+    <style>
+        
+        #table-tab1 .col-id { background-color:#A4A4A4 }
+        #table-tab2 .col-id {text-align: right; background-color: #C4C4C4;}  
+        #table-tab2 .header-sortUp {color:green; font-weight:bold} 
+        #table-tab2 .header-sortDown {color:red; font-weight:bold}
+    </style>
+    
   </head>
 
   <body>
@@ -62,13 +71,66 @@
 
 </pre>
 
-<h2>Basic Example</h2>
+<h3>Loading required javascript libraries</h3>
+<pre>
+    &lt;script src="javascripts/libs/underscore-min.js">&lt;/script>
+    &lt;script src="javascripts/libs/riot.min.js">&lt;/script>
+    &lt;script src="javascripts/tags/rtable.js" >&lt;/script>    
+</pre>
 
-    <div id="example1">    
+
+
+<div id="example1">
+    <h2>Basic Example</h2>        
+        <h4>HTML</h4>
         <pre>
- &lt;rtable id="tab">&lt;/rtable>
-        </pre><br>
- <rtable id="tab1"></rtable>   </div>
+ &lt;rtable id="tab1">&lt;/rtable>
+        </pre>
+        
+        <h4>CSS</h4>
+        <pre>
+  #table-tab1 .col-id {background-color:#A4A4A4}
+        </pre>
+        
+        <h4>Javascript</h4>
+        <pre>
+  var rtable = riot.mount('rtable#tab1', {data:list});
+        </pre><br>        
+        
+ <rtable id="tab1"></rtable> 
+    </div>
+
+
+<div id="example1">
+    <h2>Example using Sort and Filter</h2>        
+        <h4>HTML</h4>
+        <pre>
+ &lt;rtable id="tab2"
+            sort = "column:'credit', order: 'Up'"
+            filter = "column:'gender', value:'male'" 
+ >&lt;/rtable>
+        </pre>
+        
+        <h4>CSS</h4>
+        <pre>
+  #table-tab2 .col-id {background-color:#A4A4A4, text-align:right}
+  #table-tab2 .header-sortUp {color:green; font-weight:bold} 
+  #table-tab2 .header-sortDown {color:red; font-weight:bold}
+        </pre>
+      
+        <h4>Javascript</h4>
+        <pre>
+  var rtable = riot.mount('rtable#tab2', {data:list});
+        </pre><br>        
+        
+ <rtable id="tab2"
+        sort = "column:credit, order: Up"
+        filter = "column:gender, value:male" 
+></rtable> 
+ </div>
+
+
+
 
       </section>
     </div>
@@ -109,7 +171,8 @@
   { "id": 191, "name": "Salinas Graham", "age": 41, "card": "blue", "gender": "male","email": "salinasgraham@enersave.com","credit": 1711.81}
 ]
 
-         var rtable = riot.mount('rtable#tab1', {data:list});
+         var rtable1 = riot.mount('rtable#tab1', {data:list});
+         var rtable2 = riot.mount('rtable#tab2', {data:list, cloneData:'yes'});
         </script>    
 
   </body>
