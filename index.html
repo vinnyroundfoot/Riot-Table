@@ -13,9 +13,15 @@
     <style>
         
         #table-tab1 .col-id { background-color:#A4A4A4 }
+        
         #table-tab2 .col-id {text-align: right; background-color: #C4C4C4;}  
         #table-tab2 .header-sortUp {color:green; font-weight:bold} 
         #table-tab2 .header-sortDown {color:red; font-weight:bold}
+        
+        #table-tab3 .col-id {text-align: right; background-color: #C4C4C4;}  
+        #table-tab3 .header-sortUp {color:green; font-weight:bold} 
+        #table-tab3 .header-sortDown {color:red; font-weight:bold}        
+        
     </style>
     
   </head>
@@ -101,7 +107,7 @@
     </div>
 
 
-<div id="example1">
+<div id="example2">
     <h2>Example using Sort and Filter</h2>        
         <h4>HTML</h4>
         <pre>
@@ -129,7 +135,36 @@
 ></rtable> 
  </div>
 
-
+<div id="example3">
+    <h2>Example : renaming columns header and reordering</h2>        
+        <h4>HTML</h4>
+        <pre>
+ &lt;rtable id="tab3"
+            sort = "column:'credit', order: 'Up'"
+            filter = "column:'gender', value:'male'" 
+            colTitle = "name:Employee, id: Badge"
+ >&lt;/rtable>
+        </pre>
+        
+        <h4>CSS</h4>
+        <pre>
+  #table-tab3 .col-id {background-color:#A4A4A4, text-align:right}
+  #table-tab3 .header-sortUp {color:green; font-weight:bold} 
+  #table-tab3 .header-sortDown {color:red; font-weight:bold}
+        </pre>
+      
+        <h4>Javascript</h4>
+        <pre>
+  var rtable = riot.mount('rtable#tab3', {data:list});
+        </pre><br>        
+        
+ <rtable id="tab3"
+        sort     = "column:credit, order: Up"
+        filter   = "column:gender, value:male" 
+        colTitle = "name: Employee, id: Badge"
+></rtable>     
+    
+ </div>
 
 
       </section>
@@ -173,6 +208,7 @@
 
          var rtable1 = riot.mount('rtable#tab1', {data:list});
          var rtable2 = riot.mount('rtable#tab2', {data:list, cloneData:'yes'});
+         var rtable3 = riot.mount('rtable#tab3', {data:list, cloneData:'yes'});
         </script>    
 
   </body>
