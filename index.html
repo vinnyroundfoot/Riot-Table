@@ -20,7 +20,12 @@
         
         #table-tab3 .col-id {text-align: right; background-color: #C4C4C4;}  
         #table-tab3 .header-sortUp {color:green; font-weight:bold} 
-        #table-tab3 .header-sortDown {color:red; font-weight:bold}        
+        #table-tab3 .header-sortDown {color:red; font-weight:bold}  
+        
+        #table-tab4 .col-id {text-align: right; background-color: #C4C4C4;}  
+        #table-tab4 .header-sortUp {color:green; font-weight:bold} 
+        #table-tab4 .header-sortDown {color:red; font-weight:bold} 
+        
         
     </style>
     
@@ -87,7 +92,7 @@
 
 
 <div id="example1">
-    <h2>Basic Example</h2>        
+    <h2>Example 1 : Basic usage</h2>        
         <h4>HTML</h4>
         <pre>
  &lt;rtable id="tab1">&lt;/rtable>
@@ -108,11 +113,11 @@
 
 
 <div id="example2">
-    <h2>Example using Sort and Filter</h2>        
+    <h2>Example 2 : using sort and filter</h2>        
         <h4>HTML</h4>
         <pre>
  &lt;rtable id="tab2"
-            sort = "column:'credit', order: 'Up'"
+            sort   = "column:'credit', order: 'Up'"
             filter = "column:'gender', value:'male'" 
  >&lt;/rtable>
         </pre>
@@ -136,13 +141,14 @@
  </div>
 
 <div id="example3">
-    <h2>Example : renaming columns header and reordering</h2>        
+    <h2>Example 3 : renaming columns header and reordering</h2>        
         <h4>HTML</h4>
         <pre>
  &lt;rtable id="tab3"
-            sort = "column:'credit', order: 'Up'"
-            filter = "column:'gender', value:'male'" 
+            sort     = "column:'credit', order: 'Up'"
+            filter   = "column:'gender', value:'male'" 
             colTitle = "name:Employee, id: Badge"
+            colList  = "name, age, gender, id" 
  >&lt;/rtable>
         </pre>
         
@@ -162,12 +168,46 @@
         sort     = "column:age, order: Down"
         filter   = "column:gender, value:male" 
         colTitle = "name: Employee, id: Badge"
-        colList  = "name, age, gender, id" 
+        colList  = "name, age, gender, id, credit" 
 ></rtable>     
     
  </div>
 
+<div id="example4">
+    <h2>Example 4 : Excluding some info</h2>
+    <p> colExcluded is different of colList option. </p>
+    <p> colList permits you to rearrange the order of columns and let you 'not display' columns not specified</p>
+    <p> colExcluded removes the specified column from the array of data.</p>
+    
+        <h4>HTML</h4>
+        <pre>
+ &lt;rtable id="tab4"
+            sort     = "column:'credit', order: 'Up'"
+            filter   = "column:'gender', value:'male'" 
+            colExcluded = "credit, email"
+ >&lt;/rtable>
+        </pre>
+        
+        <h4>CSS</h4>
+        <pre>
+  #table-tab4 .col-id {background-color:#A4A4A4, text-align:right}
+  #table-tab4 .header-sortUp {color:green; font-weight:bold} 
+  #table-tab4 .header-sortDown {color:red; font-weight:bold}
+        </pre>
+      
+        <h4>Javascript</h4>
+        <pre>
+  var rtable = riot.mount('rtable#tab4', {data:list});
+        </pre><br>        
+        
+ <rtable id="tab4"
+        sort     = "column:age, order: Down"
+        filter   = "column:gender, value:male" 
+        colExcluded = "credit, email" 
 
+></rtable>     
+    
+ </div>
       </section>
     </div>
 
@@ -210,6 +250,7 @@
          var rtable1 = riot.mount('rtable#tab1', {data:list});
          var rtable2 = riot.mount('rtable#tab2', {data:list, cloneData:'yes'});
          var rtable3 = riot.mount('rtable#tab3', {data:list, cloneData:'yes'});
+         var rtable4 = riot.mount('rtable#tab4', {data:list, cloneData:'yes'});   
         </script>    
 
   </body>
