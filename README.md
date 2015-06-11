@@ -13,9 +13,9 @@ Features of **&lt;rtable\>**  are the following :
 - possibility  to remove column of the array 
 - possiblity to change the label of column
 
-Demo
+Demos
 -
-See **&lt;rtable>** in [action](http://vinnyroundfoot.github.io/) 
+See **&lt;rtable>** in [action](http://vinnyroundfoot.github.io/Riot-Table) 
 
 Requirements
 -
