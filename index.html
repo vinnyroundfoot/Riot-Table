@@ -26,7 +26,10 @@
         #table-tab4 .header-sortUp {color:green; font-weight:bold} 
         #table-tab4 .header-sortDown {color:red; font-weight:bold} 
         
-        
+        #table-tab5 .SortedCol {font-weight: bold; background-color: beige}
+        #table-tab5 .col-id {background-color:#A4A4A4, text-align:right}
+        #table-tab5 .header-sortUp {color:green; font-weight:bold} 
+        #table-tab5 .header-sortDown {color:red; font-weight:bold}
     </style>
     
   </head>
@@ -208,6 +211,73 @@
 ></rtable>     
     
  </div>
+          
+ <div id="example5">
+    <h2>Example 5 : &lt;rtable> manipluation with javascript</h2>
+    
+        <h4>HTML</h4>
+        <pre>
+ &lt;rtable id="tab5" styles="activeSortClass: SortedCol">&lt;/rtable>
+ 
+     &lt;button onclick="sort('name');">Sort on Name&lt;/button>  
+      &lt;button onclick="sort('age');">Sort on Age&lt;/button>
+      Filter "Card" column on :
+     &lt;select name="filterValue" onchange="filter(this.value);">
+        &lt;option>---&lt;/option>
+        &lt;option>red&lt;/option>
+        &lt;option>green&lt;/option>
+        &lt;option>blue&lt;/option>
+    &lt;/select>
+ 
+        </pre>
+        
+        <h4>CSS</h4>
+        <pre>
+  #table-tab5 .col-id {background-color:#A4A4A4, text-align:right}
+  #table-tab5 .header-sortUp {color:green; font-weight:bold} 
+  #table-tab5 .header-sortDown {color:red; font-weight:bold}
+  #table-tab5 .SortedCol {font-weight: bold; background-color: beige}
+        </pre>
+      
+        <h4>Javascript</h4>
+        <pre>
+  var rtable = riot.mount('rtable#tab5', {data:list});
+
+
+  function sort(colName) {
+     rtable5[0].sortTable({column: colName, order:'Up' }).update();
+  };
+
+  function filter(filterValue) {
+    if (filterValue === '---') {
+        rtable5[0].clearFilter().update();
+    }else{
+        rtable5[0].filterTable({column:'card', value:filterValue}).update();
+    }
+  }
+        </pre><br>        
+<h4>Result :</h4>        
+ <rtable id="tab5" styles="activeSortClass: SortedCol"></rtable>  
+ <div >
+     <div style="float:left">
+    <button onclick="sort('name');">Sort on Name</button>  
+    <button onclick="sort('age');">Sort on Age</button>
+     </div>
+  <div style="float:right">
+      Filter "Card" column on :
+     <select name="filterValue" onchange="filter(this.value);">
+        <option>---</option>
+        <option>red</option>
+        <option>green</option>
+        <option>blue</option>
+    </select>
+      
+ </div>  
+ <br style="clear:both">     
+    
+ </div>         
+          
+          
       </section>
     </div>
 
@@ -248,9 +318,25 @@
 ]
 
          var rtable1 = riot.mount('rtable#tab1', {data:list});
-         var rtable2 = riot.mount('rtable#tab2', {data:list, cloneData:'yes'});
-         var rtable3 = riot.mount('rtable#tab3', {data:list, cloneData:'yes'});
-         var rtable4 = riot.mount('rtable#tab4', {data:list, cloneData:'yes'});   
+         var rtable2 = riot.mount('rtable#tab2', {data:list, clonedata:'yes'});
+         var rtable3 = riot.mount('rtable#tab3', {data:list, clonedata:'yes'});
+         var rtable4 = riot.mount('rtable#tab4', {data:list, clonedata:'yes'});
+        
+         var rtable5 = riot.mount('rtable#tab5', {data:list, clonedata:'yes'});
+          
+         function sort(colName) {
+             rtable5[0].sortTable({column: colName, order:'Up' }).update();
+         };
+
+        function filter(filterValue) {
+            if (filterValue === '---') {
+                rtable5[0].clearFilter().update();
+            }else{
+                rtable5[0].filterTable({column:'card', value:filterValue}).update();
+            }
+        }
+            
+            
         </script>    
 
   </body>
