@@ -188,7 +188,7 @@ riot.tag('rtable', '<div class="rtable" id="rtable-{opts[\'id\']}"> <yield></yie
      
     this._isActiveSort = function(colName) {
         if (colName === this._activeColSort) {
-            return this.opts.styles.activeSortClass || '';
+            return this.styles.activeSortClass || '';
         }else{
             return '';
         }
